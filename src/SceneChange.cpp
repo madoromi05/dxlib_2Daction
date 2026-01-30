@@ -1,44 +1,50 @@
-#include "SceneChange.h"
-#include "Character.h"
-#include "DxLib.h"
+#include "SceneChanger.h"
+#include "BattleScene.h"
 
-GameAdmin::GameAdmin() : m_pPlayer(nullptr) {
-    // コンストラクタでは変数の初期化（nullptr代入など）を行う
+SceneChanger::SceneChanger() : _currentScene(nullptr) {
+    // 最初はバトルシーンから始めると仮定（あるいはタイトル）
+    ChangeScene(SceneType::Battle);
 }
 
-GameAdmin::~GameAdmin() {
-    // 終了時のメモリ解放
-    if (m_pPlayer != nullptr) {
-        delete m_pPlayer;
-        m_pPlayer = nullptr;
+SceneChanger::~SceneChanger() {
+    if (_currentScene != nullptr) {
+        _currentScene->Finalize();
+        delete _currentScene;
+        _currentScene = nullptr;
     }
 }
 
-// グローバルなRun関数の実装
-void Run() {
-    static GameAdmin admin;
-    static bool isInitialized = false;
-
-    if (!isInitialized) {
-        admin.Initialize();
-        isInitialized = true;
+void SceneChanger::ChangeScene(SceneType nextScene) {
+    // 現在のシーンがあれば終了処理をして削除
+    if (_currentScene != nullptr) {
+        _currentScene->Finalize();
+        delete _currentScene;
     }
 
-    admin.MainLoop();
+    // 次のシーンを生成（ここで分岐）
+    switch (nextScene) {
+    case SceneType::Battle:
+        _currentScene = new BattleScene();
+        break;
+    default:
+        // エラー処理など
+        break;
+    }
+
+    // 新しいシーンを初期化
+    if (_currentScene != nullptr) {
+        _currentScene->Initialize();
+    }
 }
 
-void GameAdmin::Initialize() {
-    SetDrawScreen(DX_SCREEN_BACK);
-    m_pPlayer = new Character();
-    m_pPlayer->Initialize();
+void SceneChanger::Update() {
+    if (_currentScene != nullptr) {
+        _currentScene->Update(this);
+    }
 }
 
-void GameAdmin::MainLoop() {
-    // 1. 更新
-    m_pPlayer->Update();
-
-    // 2. 描画
-    ClearDrawScreen();  // 画面を初期化する
-    m_pPlayer->Draw();
-    ScreenFlip();
+void SceneChanger::Draw() {
+    if (_currentScene != nullptr) {
+        _currentScene->Draw();
+    }
 }

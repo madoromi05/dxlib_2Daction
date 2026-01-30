@@ -4,7 +4,6 @@
 class Character {
 public:
     Character();
-    //~Character();
     void Initialize();
     void Update();
     void Draw() const;

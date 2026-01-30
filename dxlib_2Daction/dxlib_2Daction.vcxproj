@@ -19,13 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\BattleScene.cpp" />
     <ClCompile Include="..\src\Character.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\SceneChange.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Character.h" />
-    <ClInclude Include="..\src\SceneChange.h" />
+    <ClInclude Include="..\src\IScene.h" />
+    <ClInclude Include="..\src\BattleScene.h" />
+    <ClInclude Include="..\src\SceneChanger.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>

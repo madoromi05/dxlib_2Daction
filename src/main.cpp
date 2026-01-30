@@ -1,29 +1,39 @@
 #include "DxLib.h"
-#include "SceneChange.h"
+#include "SceneChanger.h"
 #include "Character.h"
-int PlayerX, PlayerY;
-int PlayerGraph;
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-	LPSTR lpCmdLine, int nCmdShow)
+constexpr int kScreenWidth = 1920;
+constexpr int kScreenHeight = 1080;
+constexpr int kColorBit = 16;
+
+int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
-	// 作業ディレクトリをresorceフォルダから参照するように設定
 	SetCurrentDirectory("../resorce");
 	// 画面モードのセット
-	SetGraphMode(640, 480, 16);
+	SetGraphMode(kScreenWidth, kScreenHeight, kColorBit);
 
-	if (DxLib_Init() == -1)	// ＤＸライブラリ初期化処理
+	if (DxLib_Init() == -1)
 	{
-		return -1;				// エラーが起きたら直ちに終了
+		return -1;
 	}
+
+	// シーン管理者の生成
+	SceneChanger* sceneChanger = new SceneChanger();
 
 	// ループ
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
-		Run();
+		ClearDrawScreen();
+		// 更新処理
+		sceneChanger->Update();
+
+		// 描画処理
+		sceneChanger->Draw();
+
+		ScreenFlip();
 	}
 
-	DxLib_End();				// ＤＸライブラリ使用の終了処理
-
-	return 0;					// ソフトの終了
+	DxLib_End();
+	return 0;
 }
