@@ -1,5 +1,7 @@
 #pragma once
 #include "Character.h"
+#include <stdexcept>
+#include <string>
 
 Character::Character()
 	: m_playerX(320), m_playerY(240), m_playerGraph(-1) {
@@ -9,10 +11,11 @@ void Character::Initialize() {
 	m_playerGraph = LoadGraph("Beryl.png");
 
 	if (m_playerGraph == -1) {
-		MessageBox(NULL, _T("画像の読み込みに失敗しました。\nファイル名と場所を確認してください。"), _T("エラー"), MB_OK);
-		DxLib_End();
-		exit(-1);
+		std::string errorMsg = "画像の読み込みに失敗しました。\nファイル名: Beryl.png\n";
+		errorMsg += "プロジェクトフォルダ(.vcxprojがある場所)に画像があるか確認してください。";
+		throw std::runtime_error(errorMsg);
 	}
+
 	// キャラクターの初期位置をセット
 	m_playerX = 0;
 	m_playerY = 0;

@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="dxlib_2Daction/dxlib_2Daction.vcxproj" />
+  <Project Path="dxlib_2Daction/dxlib_2Daction.vcxproj" Id="f49f4ff9-8c83-4d36-8084-620da711a2f9" />
 </Solution>
