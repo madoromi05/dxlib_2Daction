@@ -47,7 +47,7 @@ Map::~Map() {
 void Map::Initialize() {
     // 画像分割読み込み
     // ファイル名は実際のプロジェクト内の画像ファイル名に合わせてください
-    int result = LoadDivGraph("monochrome_tilemap.png",
+    int result = LoadDivGraph("Tileset.png",
         TILE_TOTAL,
         TILE_X_NUM,
         TILE_Y_NUM,
@@ -57,7 +57,6 @@ void Map::Initialize() {
 
     if(result == -1) {
         std::string errorMsg = "画像の読み込みに失敗しました。\nファイル名: monochrome_tilemap.png\n";
-        errorMsg += "プロジェクトフォルダ(.vcxprojがある場所)に画像があるか確認してください。";
         throw std::runtime_error(errorMsg);
     }
 }

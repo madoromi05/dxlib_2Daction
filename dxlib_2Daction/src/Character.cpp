@@ -12,7 +12,6 @@ void Character::Initialize() {
 
 	if (m_playerGraph == -1) {
 		std::string errorMsg = "画像の読み込みに失敗しました。\nファイル名: Beryl.png\n";
-		errorMsg += "プロジェクトフォルダ(.vcxprojがある場所)に画像があるか確認してください。";
 		throw std::runtime_error(errorMsg);
 	}
 

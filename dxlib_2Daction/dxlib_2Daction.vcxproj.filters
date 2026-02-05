@@ -49,10 +49,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resorce\monochrome_tilemap.png">
+    <Image Include="resorce\Beryl.png">
       <Filter>リソース ファイル</Filter>
     </Image>
-    <Image Include="resorce\Beryl.png">
+    <Image Include="resorce\Tileset.png">
       <Filter>リソース ファイル</Filter>
     </Image>
   </ItemGroup>

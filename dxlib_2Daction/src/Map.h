@@ -2,9 +2,9 @@
 #include "DxLib.h"
 
 // --- 定数定義 ---
-constexpr int TILE_SIZE = 16;       // 1マスの大きさ（ピクセル）
-constexpr int MAP_WIDTH = 20;       // 横のマス数 (320 / 16 = 20)
-constexpr int MAP_HEIGHT = 20;      // 縦のマス数 (320 / 16 = 20)
+constexpr int TILE_SIZE = 32;       // 1マスの大きさ（ピクセル）
+constexpr int MAP_WIDTH = 12;       // 横のマス数 (320 / 16 = 20)
+constexpr int MAP_HEIGHT = 8;      // 縦のマス数 (320 / 16 = 20)
 
 // 画像分割用の設定
 constexpr int TILE_X_NUM = 16;      // 画像の横のチップ数
