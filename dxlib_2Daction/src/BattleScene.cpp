@@ -11,27 +11,31 @@ BattleScene::~BattleScene() {
 }
 
 void BattleScene::Initialize() {
-    _player = new Character();
-    _player->Initialize();
-
     _map = new Map();
     _map->Initialize();
+
+    _player = new Character();
+    _player->Initialize();
 }
 
 void BattleScene::Update(SceneChanger* sceneChanger) {
     if (_player != nullptr) {
-        _player->Update();
+        _player->Update(_map);
     }
 }
 
 void BattleScene::Draw() {
 
     if (_map != nullptr) {
-        _map->Draw();
+        _map->DrawBack();
     }
 
     if (_player != nullptr) {
         _player->Draw();
+    }
+
+    if (_map != nullptr) {
+        _map->DrawFront();
     }
 }
 

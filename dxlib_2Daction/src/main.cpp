@@ -1,45 +1,40 @@
 #include "DxLib.h"
 #include "SceneChanger.h"
+#include "ScreenSizeManager.h"
 #include <stdexcept>
 #include <string>
 
-constexpr int kScreenWidth = 1920;
-constexpr int kScreenHeight = 1080;
-constexpr int kColorBit = 16;
-
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
-	_In_ LPSTR lpCmdLine, _In_ int nCmdShow)
+    _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
-	SetCurrentDirectory("resorce");
-	// 画面モードのセット
-	SetGraphMode(kScreenWidth, kScreenHeight, kColorBit);
+    ScreenSizeManager* screenSizeManager = new ScreenSizeManager();
 
-	if (DxLib_Init() == -1)
-	{
-		return -1;
-	}
+    if (!screenSizeManager->Initialize()) {
+        delete screenSizeManager;
+        return -1;
+    }
 
-	try {
-		// シーン管理者の生成
-		SceneChanger* sceneChanger = new SceneChanger();
+    try {
+        SceneChanger* sceneChanger = new SceneChanger();
 
-		// ループ
-		while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
-		{
-			ClearDrawScreen();
-			// 更新処理
-			sceneChanger->Update();
+        while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
+        {
+            screenSizeManager->BeginDraw();
 
-			// 描画処理
-			sceneChanger->Draw();
+            sceneChanger->Update();
+            sceneChanger->Draw();
+            screenSizeManager->EndDraw();
+        }
 
-			ScreenFlip();
-		}
-	}catch(const std::exception& e) {
-		// エラー内容をポップアップウィンドウで表示
-		MessageBox(NULL, e.what(), "致命的なエラー", MB_OK | MB_ICONERROR);
-	}
+        delete sceneChanger;
+    }
+    catch (const std::exception& e) {
+        MessageBox(NULL, e.what(), "致命的なエラー", MB_OK | MB_ICONERROR);
+    }
 
-	DxLib_End();
-	return 0;
+    // 後始末
+    delete screenSizeManager;
+    DxLib_End();
+
+    return 0;
 }

@@ -22,17 +22,23 @@
     <ClCompile Include="src\BattleScene.cpp" />
     <ClCompile Include="src\Character.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Map.cpp" />
+    <ClCompile Include="src\map\Map.cpp" />
+    <ClCompile Include="src\map\MapLayers.cpp" />
     <ClCompile Include="src\SceneChange.cpp" />
+    <ClCompile Include="src\ScreanSizeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BattleScene.h" />
     <ClInclude Include="src\Character.h" />
     <ClInclude Include="src\IScene.h" />
-    <ClInclude Include="src\Map.h" />
+    <ClInclude Include="src\map\Map.h" />
+    <ClInclude Include="src\map\MapLayers.h" />
+    <ClInclude Include="src\ResorcePath.h" />
     <ClInclude Include="src\SceneChanger.h" />
+    <ClInclude Include="src\ScreenSizeManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="resorce\Background.png" />
     <Image Include="resorce\Beryl.png" />
     <Image Include="resorce\Tileset.png" />
   </ItemGroup>
@@ -95,7 +101,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>resorce;DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;resorce;DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -125,7 +131,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>resorce;DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;resorce;DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
