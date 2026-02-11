@@ -1,6 +1,6 @@
 #pragma once
 #include "IScene.h"
-#include "Character.h"
+#include "Player/Character.h"
 #include "map/Map.h"
 
 class BattleScene : public IScene {

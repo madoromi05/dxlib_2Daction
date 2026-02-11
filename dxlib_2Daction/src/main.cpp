@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "SceneChanger.h"
+#include "Scene/SceneChanger.h"
 #include "ScreenSizeManager.h"
 #include <stdexcept>
 #include <string>

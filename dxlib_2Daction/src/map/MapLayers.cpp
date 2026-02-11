@@ -1,6 +1,9 @@
 #include "MapLayers.h"
-#include <fstream> // ファイル存在チェック用
+#include <fstream>
 #include <string>
+#include <sstream>
+#include <iostream>
+
 bool FileExists(const std::string& path) {
     std::ifstream fs(path);
     return fs.is_open();
@@ -18,16 +21,59 @@ void BackgroundLayer::Initialize() {
         throw std::runtime_error("【致命的エラー】背景画像の読み込みに失敗しました(LoadGraphエラー)。\nパス: " + m_fileName);
     }
 }
-void BackgroundLayer::Finalize() {
-    if (m_graphHandle != -1) DeleteGraph(m_graphHandle);
-}
-void BackgroundLayer::Draw(bool drawFront) {
-    if (!drawFront && m_graphHandle != -1) {
-        // 背景は画面いっぱいに描画
-        DrawExtendGraph(0, 0, MAP_WIDTH * MAP_GRID_SIZE, MAP_HEIGHT * MAP_GRID_SIZE, m_graphHandle, FALSE);
+
+void TileLayer::LoadMapData(const std::string& filePath) {
+    std::ifstream file(filePath);
+
+    if (!file.is_open()) {
+        throw std::runtime_error("【エラー】CSVファイルが見つかりません。\nパス: " + filePath);
+    }
+    std::string line;
+    int y = 0;
+
+    while (std::getline(file, line) && y < MAP_HEIGHT) {
+        std::stringstream ss(line);
+        std::string value;
+        int x = 0;
+
+        while (std::getline(ss, value, ',') && x < MAP_WIDTH) {
+            try {
+                m_mapData[y][x] = std::stoi(value);
+            }
+            catch (...) {
+                m_mapData[y][x] = 0;
+            }
+            x++;
+        }
+        y++;
     }
 }
 
+void BackgroundLayer::Finalize() {
+    if (m_graphHandle != -1) DeleteGraph(m_graphHandle);
+}
+
+void BackgroundLayer::Draw(bool drawFront) {
+    if (!drawFront && m_graphHandle != -1) {
+        // 1. 画像の本来のサイズを取得
+        int imgWidth, imgHeight;
+        GetGraphSize(m_graphHandle, &imgWidth, &imgHeight);
+
+        // 2. 目標とする「高さ」（マップの高さ）
+        int targetHeight = MAP_HEIGHT * MAP_GRID_SIZE;
+
+        // 3. 高さを基準に倍率を計算（ マップの高さ ÷ 画像の高さ ）
+        float scale = (float)targetHeight / imgHeight;
+
+        // 4. 新しい幅を計算（比率維持）
+        // 高さはマップにピッタリ合わせ、幅はその倍率で自動調整
+        int drawWidth = (int)(imgWidth * scale);
+        int drawHeight = targetHeight;
+
+        // 5. 描画
+        DrawExtendGraph(0, 0, drawWidth, drawHeight, m_graphHandle, FALSE);
+    }
+}
 // ==========================================
 // TileLayer の実装
 // ==========================================
@@ -38,10 +84,7 @@ TileLayer::TileLayer() {
     // マップデータ定義（枠だけ壁の例）
     for (int y = 0; y < MAP_HEIGHT; y++) {
         for (int x = 0; x < MAP_WIDTH; x++) {
-            if (x == 0 || x == MAP_WIDTH - 1 || y == 0 || y == MAP_HEIGHT - 1)
-                m_mapData[y][x] = 1; // 壁
-            else
-                m_mapData[y][x] = 0; // 床
+            m_mapData[y][x] = 0;
         }
     }
 }
@@ -49,7 +92,7 @@ TileLayer::TileLayer() {
 void TileLayer::Initialize() {
 
     // 画像分割読み込み
-    LoadDivGraph(
+    int result = LoadDivGraph(
         ResourcePath::Map::kTileMap, 
         TILE_TOTAL_NUM,
         TILE_X,
@@ -57,6 +100,12 @@ void TileLayer::Initialize() {
         TILE_SIZE,
         TILE_SIZE,
         m_tileHandles);
+
+    if (result == -1) {
+        throw std::runtime_error("【エラー】タイルマップ画像が見つかりません。\nパス: " + std::string(ResourcePath::Map::kTileMap));
+    }
+
+    LoadMapData(ResourcePath::Map::kMapCSV1);
 }
 
 void TileLayer::Finalize() {

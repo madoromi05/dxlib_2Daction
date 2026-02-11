@@ -59,7 +59,7 @@ public:
     void Initialize() override;
     void Finalize() override;
     void Draw(bool drawFront) override;
-
+    void LoadMapData(const std::string& filePath);
     // 壁判定
     bool IsWall(float x, float y);
 };
@@ -79,79 +79,3 @@ public:
     void Draw(bool drawFront) override;
 };
 
-
-//class MapLayer {
-//public:
-//    virtual ~MapLayer() = default;
-//
-//    // 純粋仮想関数：子クラスは必ずこれを実装しなければならない
-//    virtual void Initialize() = 0;
-//    virtual void Finalize() = 0;
-//
-//    // 描画関数 (priority は「奥」か「手前」かを指定する用、使わない場合は無視)
-//    virtual void Draw(bool drawFront = false) = 0;
-//};
-//
-//// ==========================================
-//// 遠景レイヤー (BackgroundLayer)
-//// ==========================================
-//class BackgroundLayer : public MapLayer {
-//private:
-//    int m_graphHandle;
-//    std::string m_fileName;
-//
-//public:
-//    BackgroundLayer(const std::string& fileName) : m_graphHandle(-1), m_fileName(fileName) {}
-//
-//    void Initialize() override {
-//        m_graphHandle = LoadGraph(m_fileName.c_str());
-//    }
-//
-//    void Finalize() override {
-//        if (m_graphHandle != -1) DeleteGraph(m_graphHandle);
-//    }
-//
-//    void Draw(bool drawFront) override {
-//        // 遠景は常に奥なので drawFrontがfalseの時だけ描く、などの制御も可能
-//        if (!drawFront && m_graphHandle != -1) {
-//            DrawGraph(0, 0, m_graphHandle, FALSE);
-//        }
-//    }
-//};
-//
-//// ==========================================
-//// タイルマップ・当たり判定
-//// ==========================================
-//class TileLayer : public MapLayer {
-//private:
-//    int m_tileHandles[TILE_TOTAL_NUM]; // チップ画像配列
-//    int m_mapData[MAP_HEIGHT][MAP_WIDTH]; // マップデータ
-//
-//public:
-//    TileLayer(); // コンストラクタでデータ定義
-//
-//    void Initialize() override;
-//    void Finalize() override;
-//    void Draw(bool drawFront) override;
-//
-//    // タイル固有の機能：壁判定
-//    bool IsWall(float x, float y);
-//};
-//
-//// ==========================================
-//// 木や装飾
-//// ==========================================
-//class ObjectLayer : public MapLayer {
-//private:
-//    std::vector<MapObjectData> m_objects;
-//    // 画像ハンドル管理（単純化のためメンバで保持）
-//    int m_treeImg;
-//    int m_bushImg;
-//
-//public:
-//    ObjectLayer();
-//
-//    void Initialize() override;
-//    void Finalize() override;
-//    void Draw(bool drawFront) override;
-//};
