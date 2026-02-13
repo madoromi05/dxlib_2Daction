@@ -426,3 +426,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msps
+
+# 自分の作成
+*.txt
