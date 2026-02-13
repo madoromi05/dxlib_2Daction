@@ -40,7 +40,10 @@
   <ItemGroup>
     <Image Include="resorce\Background.png" />
     <Image Include="resorce\Beryl.png" />
+    <Image Include="resorce\Bush.png" />
+    <Image Include="resorce\Idle.png" />
     <Image Include="resorce\Tileset.png" />
+    <Image Include="resorce\Tree.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resorce\mapData1.csv" />

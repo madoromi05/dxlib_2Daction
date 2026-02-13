@@ -79,6 +79,15 @@
     <Image Include="resorce\Background.png">
       <Filter>リソース ファイル</Filter>
     </Image>
+    <Image Include="resorce\Idle.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="resorce\Bush.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="resorce\Tree.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="resorce\mapData1.csv">

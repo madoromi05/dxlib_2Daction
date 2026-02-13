@@ -90,8 +90,6 @@ TileLayer::TileLayer() {
 }
 
 void TileLayer::Initialize() {
-
-    // ‰æ‘œ•ªŠ„“Ç‚İ‚İ
     int result = LoadDivGraph(
         ResourcePath::Map::kTileMap, 
         TILE_TOTAL_NUM,
@@ -142,7 +140,7 @@ bool TileLayer::IsWall(float x, float y) {
     int xi = (int)x / 16;
     int yi = (int)y / 16;
     if (xi < 0 || xi >= MAP_WIDTH || yi < 0 || yi >= MAP_HEIGHT) return true;
-    return (m_mapData[yi][xi] == 1); // 1‚Í•Ç
+    return (m_mapData[yi][xi] == 3);
 }
 
 // ==========================================

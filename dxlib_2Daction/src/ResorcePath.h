@@ -13,7 +13,7 @@ namespace ResourcePath
 	
 	namespace Player
 	{
-		constexpr const char* PLAYER_IMAGE = "Beryl.png";
+		constexpr const char* PLAYER_IMAGE = "Idle.png";
 	}
 
 	namespace Enemy

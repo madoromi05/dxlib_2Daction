@@ -11,8 +11,8 @@ constexpr int MAP_HEIGHT = 15;          // マップの縦マス数
 
 // --- 定数や構造体の定義 ---
 constexpr int TILE_SIZE = 32;           // タイル1枚のサイズ
-constexpr int TILE_X = 12;       // タイルマップ横幅
-constexpr int TILE_Y = 8;       // タイルマップ縦幅
+constexpr int TILE_X = 12;              // タイルマップ横幅
+constexpr int TILE_Y = 8;               // タイルマップ縦幅
 constexpr int TILE_TOTAL_NUM = TILE_X * TILE_Y; // 画像分割総数
 
 struct MapObjectData {
