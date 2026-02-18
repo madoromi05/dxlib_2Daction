@@ -3,7 +3,7 @@
 
 class ScreenSizeManager {
 public:
-    static constexpr int kLogicalHeight = 240;
+    static constexpr int kLogicalHeight = 480;
 
     ScreenSizeManager();
     ~ScreenSizeManager();

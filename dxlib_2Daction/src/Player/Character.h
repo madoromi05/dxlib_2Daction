@@ -26,4 +26,6 @@ private:
 
     static constexpr int kChipWidth = 128;
     static constexpr int kChipHeight = 128;
+    static constexpr int kDrawWidth = 128;
+    static constexpr int kDrawHeight = 128;
 };

@@ -137,8 +137,8 @@ void TileLayer::Draw(bool drawFront) {
 }
 
 bool TileLayer::IsWall(float x, float y) {
-    int xi = (int)x / 16;
-    int yi = (int)y / 16;
+    int xi = (int)x / MAP_GRID_SIZE;
+    int yi = (int)y / MAP_GRID_SIZE;
     if (xi < 0 || xi >= MAP_WIDTH || yi < 0 || yi >= MAP_HEIGHT) return true;
     return (m_mapData[yi][xi] == 3);
 }
@@ -152,8 +152,8 @@ void ObjectLayer::Initialize() {
     m_treeImg = LoadGraph(ResourcePath::Map::kTree);
     m_bushImg = LoadGraph(ResourcePath::Map::kBush);
 
-    if (m_treeImg != -1) m_objects.push_back({ 50, 50, m_treeImg, false });
-    if (m_bushImg != -1) m_objects.push_back({ 100, 100, m_bushImg, true });
+    if (m_treeImg != -1) m_objects.push_back({ 50 * 2, 50 * 2, m_treeImg, false });
+    if (m_bushImg != -1) m_objects.push_back({ 100 * 2, 100 * 2, m_bushImg, true });
 }
 
 void ObjectLayer::Finalize() {

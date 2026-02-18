@@ -2,7 +2,7 @@
 #include <algorithm>
 
 ScreenSizeManager::ScreenSizeManager()
-    : m_virtualScreenHandle(-1), m_monitorWidth(0), m_monitorHeight(0), m_logicalWidth(320) {
+    : m_virtualScreenHandle(-1), m_monitorWidth(0), m_monitorHeight(0), m_logicalWidth(640) {
 }
 
 ScreenSizeManager::~ScreenSizeManager() {

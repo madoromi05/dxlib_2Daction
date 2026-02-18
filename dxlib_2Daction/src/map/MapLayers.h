@@ -5,7 +5,7 @@
 #include <string>
 #include <stdexcept>
 
-constexpr int MAP_GRID_SIZE = 16;       // ゲーム画面上の1マスの大きさ
+constexpr int MAP_GRID_SIZE = 32;       // ゲーム画面上の1マスの大きさ
 constexpr int MAP_WIDTH  = 20;          // マップの横マス数
 constexpr int MAP_HEIGHT = 15;          // マップの縦マス数
 

@@ -5,8 +5,8 @@
 #include "map/Map.h"
 
 Character::Character()
-    : m_playerX(320)
-    , m_playerY(240)
+    : m_playerX(640)
+    , m_playerY(480)
     , m_animTimer(0)
     , m_currentFrame(0)
 {
@@ -74,13 +74,20 @@ void Character::Update(Map* map) {
     }
 }
 
+
 void Character::Draw() const {
     if (m_idleHandles[m_currentFrame] != -1) {
-        DrawGraph(
-            static_cast<int>(m_playerX),
-            static_cast<int>(m_playerY),
+        int oldMode = GetDrawMode();
+        SetDrawMode(DX_DRAWMODE_BILINEAR);
+
+        DrawExtendGraph(
+            m_playerX,
+            m_playerY,
+            m_playerX + kDrawWidth,  // ’è”‚ğg‚¤
+            m_playerY + kDrawHeight, // ’è”‚ğg‚¤
             m_idleHandles[m_currentFrame],
             TRUE
         );
+        SetDrawMode(oldMode);
     }
 }
