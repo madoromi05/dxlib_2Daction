@@ -1,8 +1,4 @@
 #include "MapLayers.h"
-#include <fstream>
-#include <string>
-#include <sstream>
-#include <iostream>
 
 bool FileExists(const std::string& path) {
     std::ifstream fs(path);
@@ -31,12 +27,12 @@ void TileLayer::LoadMapData(const std::string& filePath) {
     std::string line;
     int y = 0;
 
-    while (std::getline(file, line) && y < MAP_HEIGHT) {
+    while (std::getline(file, line) && y < stage_information::kMapHeight) {
         std::stringstream ss(line);
         std::string value;
         int x = 0;
 
-        while (std::getline(ss, value, ',') && x < MAP_WIDTH) {
+        while (std::getline(ss, value, ',') && x < stage_information::kMapWidth) {
             try {
                 m_mapData[y][x] = std::stoi(value);
             }
@@ -55,17 +51,17 @@ void BackgroundLayer::Finalize() {
 
 void BackgroundLayer::Draw(bool drawFront) {
     if (!drawFront && m_graphHandle != -1) {
-        // 1. 画像の本来のサイズを取得
+        // 画像の本来のサイズを取得
         int imgWidth, imgHeight;
         GetGraphSize(m_graphHandle, &imgWidth, &imgHeight);
 
-        // 2. 目標とする「高さ」（マップの高さ）
-        int targetHeight = MAP_HEIGHT * MAP_GRID_SIZE;
+        // 目標とする「高さ」（マップの高さ）
+        int targetHeight = stage_information::kStagePixelHeight;
 
-        // 3. 高さを基準に倍率を計算（ マップの高さ ÷ 画像の高さ ）
+        // 高さを基準に倍率を計算（ マップの高さ ÷ 画像の高さ ）
         float scale = (float)targetHeight / imgHeight;
 
-        // 4. 新しい幅を計算（比率維持）
+        // 新しい幅を計算（比率維持）
         // 高さはマップにピッタリ合わせ、幅はその倍率で自動調整
         int drawWidth = (int)(imgWidth * scale);
         int drawHeight = targetHeight;
@@ -82,8 +78,8 @@ TileLayer::TileLayer() {
     for (auto& h : m_tileHandles) h = -1;
 
     // マップデータ定義（枠だけ壁の例）
-    for (int y = 0; y < MAP_HEIGHT; y++) {
-        for (int x = 0; x < MAP_WIDTH; x++) {
+    for (int y = 0; y < stage_information::kMapHeight; y++) {
+        for (int x = 0; x < stage_information::kMapWidth; x++) {
             m_mapData[y][x] = 0;
         }
     }
@@ -92,11 +88,11 @@ TileLayer::TileLayer() {
 void TileLayer::Initialize() {
     int result = LoadDivGraph(
         ResourcePath::Map::kTileMap, 
-        TILE_TOTAL_NUM,
-        TILE_X,
-        TILE_Y,
-        TILE_SIZE,
-        TILE_SIZE,
+        stage_information::kTileTotalNum,
+        stage_information::kTileX,
+        stage_information::kTileY,
+        stage_information::kTileSize,
+        stage_information::kTileSize,
         m_tileHandles);
 
     if (result == -1) {
@@ -116,18 +112,18 @@ void TileLayer::Draw(bool drawFront) {
     // タイルマップは基本的に「奥(false)」のタイミングで描画
     if (drawFront) return;
 
-    for (int y = 0; y < MAP_HEIGHT; y++) {
-        for (int x = 0; x < MAP_WIDTH; x++) {
+    for (int y = 0; y < stage_information::kMapHeight; y++) {
+        for (int x = 0; x < stage_information::kMapWidth; x++) {
             int id = m_mapData[y][x];
             if (id >= 0 && m_tileHandles[id] != -1) {
-                int drawX = x * MAP_GRID_SIZE;
-                int drawY = y * MAP_GRID_SIZE;
+                int drawX = x * stage_information::kMapGridSize;
+                int drawY = y * stage_information::kMapGridSize;
 
                 DrawExtendGraph(
                     drawX,
                     drawY,
-                    drawX + MAP_GRID_SIZE,
-                    drawY + MAP_GRID_SIZE,
+                    drawX + stage_information::kMapGridSize,
+                    drawY + stage_information::kMapGridSize,
                     m_tileHandles[id],
                     TRUE
                 );
@@ -137,9 +133,9 @@ void TileLayer::Draw(bool drawFront) {
 }
 
 bool TileLayer::IsWall(float x, float y) {
-    int xi = (int)x / MAP_GRID_SIZE;
-    int yi = (int)y / MAP_GRID_SIZE;
-    if (xi < 0 || xi >= MAP_WIDTH || yi < 0 || yi >= MAP_HEIGHT) return true;
+    int xi = (int)x / stage_information::kMapGridSize;
+    int yi = (int)y / stage_information::kMapGridSize;
+    if (xi < 0 || xi >= stage_information::kMapWidth || yi < 0 || yi >= stage_information::kMapHeight) return true;
     return (m_mapData[yi][xi] == 3);
 }
 

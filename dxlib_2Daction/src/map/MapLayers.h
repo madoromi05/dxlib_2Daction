@@ -1,24 +1,18 @@
 #pragma once
 #include "DxLib.h"
 #include "ResorcePath.h"
+#include "StageInformation.h"
 #include <vector>
-#include <string>
 #include <stdexcept>
-
-constexpr int MAP_GRID_SIZE = 32;       // ゲーム画面上の1マスの大きさ
-constexpr int MAP_WIDTH  = 20;          // マップの横マス数
-constexpr int MAP_HEIGHT = 15;          // マップの縦マス数
-
-// --- 定数や構造体の定義 ---
-constexpr int TILE_SIZE = 32;           // タイル1枚のサイズ
-constexpr int TILE_X = 12;              // タイルマップ横幅
-constexpr int TILE_Y = 8;               // タイルマップ縦幅
-constexpr int TILE_TOTAL_NUM = TILE_X * TILE_Y; // 画像分割総数
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <iostream>
 
 struct MapObjectData {
     int x, y;
     int graphHandle;
-    bool isFront; // true:キャラの手前, false:キャラの奥
+    bool isFront;
 };
 
 // --------------------------------------------------
@@ -51,8 +45,8 @@ public:
 // --------------------------------------------------
 class TileLayer : public MapLayer {
 private:
-    int m_tileHandles[TILE_TOTAL_NUM];     // 画像ハンドル配列
-    int m_mapData[MAP_HEIGHT][MAP_WIDTH]; // マップ配置データ
+	int m_tileHandles[stage_information::kTileTotalNum];                          // 画像ハンドル配列
+	int m_mapData[stage_information::kMapHeight][stage_information::kMapWidth];   // マップ配置データ
 
 public:
     TileLayer();

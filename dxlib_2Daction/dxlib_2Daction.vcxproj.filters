@@ -68,6 +68,9 @@
     <ClInclude Include="src\ScreenSizeManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="src\map\Stageinformation.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resorce\Beryl.png">

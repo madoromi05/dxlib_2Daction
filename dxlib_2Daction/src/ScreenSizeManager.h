@@ -1,4 +1,5 @@
 #pragma once
+#include "map/Stageinformation.h"
 #include "DxLib.h"
 
 class ScreenSizeManager {

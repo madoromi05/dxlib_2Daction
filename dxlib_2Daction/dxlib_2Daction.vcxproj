@@ -28,6 +28,7 @@
     <ClCompile Include="src\ScreanSizeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\map\Stageinformation.h" />
     <ClInclude Include="src\Scene\BattleScene.h" />
     <ClInclude Include="src\Player\Character.h" />
     <ClInclude Include="src\Scene\IScene.h" />

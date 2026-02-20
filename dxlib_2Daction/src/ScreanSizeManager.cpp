@@ -1,5 +1,4 @@
 #include "ScreenSizeManager.h"
-#include <algorithm>
 
 ScreenSizeManager::ScreenSizeManager()
     : m_virtualScreenHandle(-1), m_monitorWidth(0), m_monitorHeight(0), m_logicalWidth(640) {
@@ -15,7 +14,8 @@ bool ScreenSizeManager::Initialize() {
     // モニターサイズの取得
     m_monitorWidth = GetSystemMetrics(SM_CXSCREEN);
     m_monitorHeight = GetSystemMetrics(SM_CYSCREEN);
-    m_logicalWidth = kLogicalHeight * m_monitorWidth / m_monitorHeight;
+    m_logicalWidth = stage_information::kStagePixelWidth;
+    int logicalHeight = stage_information::kStagePixelHeight;
 
     // DxLibの設定
     SetCurrentDirectory("resorce");
@@ -45,7 +45,9 @@ void ScreenSizeManager::BeginDraw() {
 void ScreenSizeManager::EndDraw() {
     SetDrawScreen(DX_SCREEN_BACK);
     ClearDrawScreen();
+
     DrawExtendGraph(0, 0, m_monitorWidth, m_monitorHeight, m_virtualScreenHandle, FALSE);
+
     // 画面反映
     ScreenFlip();
 }
