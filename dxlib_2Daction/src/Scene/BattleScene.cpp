@@ -1,8 +1,9 @@
 #include "BattleScene.h"
+#include "map/Map.h"
 #include "SceneChanger.h"
 #include "DxLib.h"
 
-BattleScene::BattleScene() : _player(nullptr) {
+BattleScene::BattleScene() : m_player(nullptr) {
     // コンストラクタは変数の初期化のみ
 }
 
@@ -11,41 +12,41 @@ BattleScene::~BattleScene() {
 }
 
 void BattleScene::Initialize() {
-    _map = new Map();
-    _map->Initialize();
+    m_map = new Map();
+    m_map->Initialize();
 
-    _player = new Character();
-    _player->Initialize();
+    m_player = new Character();
+    m_player->Initialize();
 }
 
 void BattleScene::Update(SceneChanger* sceneChanger) {
-    if (_player != nullptr) {
-        _player->Update(_map);
+    if (m_player != nullptr) {
+        m_player->Update(m_map);
     }
 }
 
 void BattleScene::Draw() {
 
-    if (_map != nullptr) {
-        _map->DrawBack();
+    if (m_map != nullptr) {
+        m_map->DrawBack();
     }
 
-    if (_player != nullptr) {
-        _player->Draw();
+    if (m_player != nullptr) {
+        m_player->Draw();
     }
 
-    if (_map != nullptr) {
-        _map->DrawFront();
+    if (m_map != nullptr) {
+        m_map->DrawFront();
     }
 }
 
 void BattleScene::Finalize() {
-    if (_player != nullptr) {
-        delete _player;
-        _player = nullptr;
+    if (m_player != nullptr) {
+        delete m_player;
+        m_player = nullptr;
     }
-    if (_map != nullptr) {
-        delete _map;
-        _map = nullptr;
+    if (m_map != nullptr) {
+        delete m_map;
+        m_map = nullptr;
     }
 }

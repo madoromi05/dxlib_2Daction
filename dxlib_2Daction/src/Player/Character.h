@@ -1,6 +1,9 @@
 #pragma once
-#include "DxLib.h"
+#include <stdexcept>
+#include <string>
 #include "ResorcePath.h"
+#include "DxLib.h"
+#include "map/Map.h"
 class Map;
 
 class Character {

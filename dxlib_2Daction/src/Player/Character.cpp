@@ -1,8 +1,4 @@
 #include "Character.h"
-#include <stdexcept>
-#include <string>
-#include "DxLib.h"
-#include "map/Map.h"
 
 Character::Character()
     : m_playerX(640)

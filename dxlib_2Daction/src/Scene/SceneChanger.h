@@ -3,7 +3,7 @@
 
 class SceneChanger {
 private:
-    IScene* _currentScene;
+    IScene* m_currentScene;
 
 public:
     SceneChanger();

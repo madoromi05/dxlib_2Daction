@@ -66,7 +66,6 @@ void BackgroundLayer::Draw(bool drawFront) {
         int drawWidth = (int)(imgWidth * scale);
         int drawHeight = targetHeight;
 
-        // 5. •`‰æ
         DrawExtendGraph(0, 0, drawWidth, drawHeight, m_graphHandle, FALSE);
     }
 }

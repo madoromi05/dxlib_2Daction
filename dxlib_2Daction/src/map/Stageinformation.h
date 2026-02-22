@@ -20,5 +20,4 @@ namespace stage_information {
     constexpr int kTileX = 12;          // タイルマップ画像の横の分割数
     constexpr int kTileY = 8;           // タイルマップ画像の縦の分割数
     constexpr int kTileTotalNum = kTileX * kTileY; // 画像の総分割数
-
 }

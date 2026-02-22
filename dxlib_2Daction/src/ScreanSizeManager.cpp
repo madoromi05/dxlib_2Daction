@@ -1,4 +1,5 @@
 #include "ScreenSizeManager.h"
+#include <algorithm>
 
 ScreenSizeManager::ScreenSizeManager()
     : m_virtualScreenHandle(-1), m_monitorWidth(0), m_monitorHeight(0), m_logicalWidth(640) {
@@ -14,8 +15,11 @@ bool ScreenSizeManager::Initialize() {
     // モニターサイズの取得
     m_monitorWidth = GetSystemMetrics(SM_CXSCREEN);
     m_monitorHeight = GetSystemMetrics(SM_CYSCREEN);
+    
     m_logicalWidth = stage_information::kStagePixelWidth;
-    int logicalHeight = stage_information::kStagePixelHeight;
+    m_logicalHeight = stage_information::kStagePixelHeight;
+
+    // int logicalHeight = stage_information::kStagePixelHeight;
 
     // DxLibの設定
     SetCurrentDirectory("resorce");
@@ -29,8 +33,8 @@ bool ScreenSizeManager::Initialize() {
     }
 
     // 仮想スクリーンの作成
-    m_virtualScreenHandle = MakeScreen(m_logicalWidth, kLogicalHeight, TRUE);
-
+    // m_virtualScreenHandle = MakeScreen(m_logicalWidth, kLogicalHeight, TRUE);
+    m_virtualScreenHandle = MakeScreen(m_logicalWidth, m_logicalHeight, TRUE);
     // ドット絵をくっきりさせる設定
     SetDrawMode(DX_DRAWMODE_NEAREST);
 
@@ -46,7 +50,17 @@ void ScreenSizeManager::EndDraw() {
     SetDrawScreen(DX_SCREEN_BACK);
     ClearDrawScreen();
 
-    DrawExtendGraph(0, 0, m_monitorWidth, m_monitorHeight, m_virtualScreenHandle, FALSE);
+    float scaleX = (float)m_monitorWidth / m_logicalWidth;
+    float scaleY = (float)m_monitorHeight / m_logicalHeight;
+    float scale = (std::min)(scaleX, scaleY);
+
+    int drawWidth = (int)(m_logicalWidth * scale);
+    int drawHeight = (int)(m_logicalHeight * scale);
+
+    int offsetX = (m_monitorWidth - drawWidth) / 2;
+    int offsetY = (m_monitorHeight - drawHeight) / 2;
+
+    DrawExtendGraph(offsetX, offsetY, offsetX + drawWidth, offsetY + drawHeight, m_virtualScreenHandle, FALSE);
 
     // 画面反映
     ScreenFlip();

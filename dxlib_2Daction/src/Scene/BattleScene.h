@@ -1,12 +1,11 @@
 #pragma once
 #include "IScene.h"
 #include "Player/Character.h"
-#include "map/Map.h"
 
 class BattleScene : public IScene {
 private:
-    Character* _player;
-	Map* _map;
+    Character* m_player;
+	Map* m_map;
     
 public:
     BattleScene();
