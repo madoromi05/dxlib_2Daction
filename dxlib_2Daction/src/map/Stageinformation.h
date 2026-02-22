@@ -20,4 +20,10 @@ namespace stage_information {
     constexpr int kTileX = 12;          // タイルマップ画像の横の分割数
     constexpr int kTileY = 8;           // タイルマップ画像の縦の分割数
     constexpr int kTileTotalNum = kTileX * kTileY; // 画像の総分割数
+
+	// Zオーダーの定数
+    constexpr int kZOrderBackground = -100; // 最背面：遠景
+    constexpr int kZOrderTile = -50;        // 地面・壁：タイルのレイヤー
+    constexpr int kZOrderObjectBase = 0;     // 物体：これにY座標を足して、物体同士の前後を表現する
+    constexpr int kZOrderUI = 100;          // 最前面：UIや文字など
 }

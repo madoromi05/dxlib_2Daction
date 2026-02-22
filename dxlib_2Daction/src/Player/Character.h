@@ -1,17 +1,17 @@
 #pragma once
 #include <stdexcept>
 #include <string>
-#include "ResorcePath.h"
-#include "DxLib.h"
-#include "map/Map.h"
+#include "DrowInterface/DrawableList.h"
+
 class Map;
 
-class Character {
+class Character : public IDrawable{
 public:
     Character();
     void Initialize();
     void Update(class Map* map);
-    void Draw() const;
+    void Draw() const override;
+	int GetY() const { return m_playerY; }
 
 private:
     int m_playerX;

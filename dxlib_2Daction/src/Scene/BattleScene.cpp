@@ -28,16 +28,15 @@ void BattleScene::Update(SceneChanger* sceneChanger) {
 void BattleScene::Draw() {
 
     if (m_map != nullptr) {
-        m_map->DrawBack();
+        m_map->RegisterTo(&m_drawableList);
     }
 
     if (m_player != nullptr) {
-        m_player->Draw();
+        int playerZOrder = stage_information::kZOrderObjectBase + m_player->GetY();
+        m_drawableList.Add(m_player, playerZOrder);
     }
 
-    if (m_map != nullptr) {
-        m_map->DrawFront();
-    }
+    m_drawableList.DrawAll();
 }
 
 void BattleScene::Finalize() {

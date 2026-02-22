@@ -6,7 +6,8 @@ class BattleScene : public IScene {
 private:
     Character* m_player;
 	Map* m_map;
-    
+    DrawableList m_drawableList;
+
 public:
     BattleScene();
     virtual ~BattleScene();

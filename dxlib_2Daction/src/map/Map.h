@@ -21,10 +21,7 @@ public:
     void Initialize();
     void Finalize();
 
-    // 描画：奥を描くモードと、手前を描くモード
-    void DrawBack();
-    void DrawFront();
-
     // 壁判定（TileLayerへ委譲）
     bool IsWall(float x, float y);
+    void RegisterTo(DrawableList* list);
 };

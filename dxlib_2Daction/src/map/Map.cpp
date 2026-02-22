@@ -23,18 +23,6 @@ void Map::Initialize() {
     }
 }
 
-void Map::DrawBack() {
-    for (auto layer : m_layers) {
-        layer->Draw(false); // false = ‰œ
-    }
-}
-
-void Map::DrawFront() {
-    for (auto layer : m_layers) {
-        layer->Draw(true); // true = è‘O
-    }
-}
-
 bool Map::IsWall(float x, float y) {
     if (m_tileLayer) {
         return m_tileLayer->IsWall(x, y);
@@ -50,4 +38,10 @@ void Map::Finalize() {
     }
     m_layers.clear();
     m_tileLayer = nullptr;
+}
+
+void Map::RegisterTo(DrawableList* list) {
+    for (auto layer : m_layers) {
+        layer->RegisterTo(list);
+    }
 }

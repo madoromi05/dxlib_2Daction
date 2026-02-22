@@ -1,4 +1,7 @@
 #include "Character.h"
+#include "ResorcePath.h"
+#include "DxLib.h"
+#include "map/Map.h"
 
 Character::Character()
     : m_playerX(640)
