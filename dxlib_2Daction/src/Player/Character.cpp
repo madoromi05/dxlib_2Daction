@@ -6,8 +6,11 @@
 Character::Character()
     : m_playerX(640)
     , m_playerY(480)
+	, m_isGrounded(false)
     , m_animTimer(0)
     , m_currentFrame(0)
+    , m_nextX(0)
+    , m_nextY(0)
 {
     // ハンドル配列を無効値で初期化
     for (int i = 0; i < kIdleFrameCount; ++i) {
@@ -28,19 +31,18 @@ void Character::Initialize() {
 
     if (result == -1) {
         std::string errorMsg = "画像の読み込みに失敗しました。\nパス: ";
-        // errorMsg += ResourcePath::Player::PLAYER_IMAGE; // string型なら結合可能
         throw std::runtime_error(errorMsg);
     }
 
     // キャラクターの初期位置をセット
     m_playerX = 0;
-    m_playerY = 0;
+    m_playerY = 200;
 }
 
 void Character::Update(Map* map) {
-    m_animTimer++; // タイマーを進める
+    m_animTimer++;        // タイマーを進める
     if (m_animTimer >= kAnimSpeed) {
-        m_animTimer = 0; // タイマーリセット
+        m_animTimer = 0;  // タイマーリセット
         m_currentFrame++; // 次のコマへ
 
         // 最後のコマまで行ったら最初(0)に戻す
@@ -48,31 +50,65 @@ void Character::Update(Map* map) {
             m_currentFrame = 0;
         }
     }
+    m_nextY += kGravity;
 
-    // 移動処理
-    int nextX = static_cast<int>(m_playerX);
-    int nextY = static_cast<int>(m_playerY);
-	int speed = 3;
+    m_nextX = m_playerX;
+    m_nextY = m_playerY;
+
 
     int key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
+    Move(map, key);
+    Jump(key);
+    Gravity(map);
+}
 
-    if (key & PAD_INPUT_UP)    nextY -= speed;
-    if (key & PAD_INPUT_DOWN)  nextY += speed;
-    if (key & PAD_INPUT_RIGHT) nextX += speed;
-    if (key & PAD_INPUT_LEFT)  nextX -= speed;
+// Playerの入力による移動
+void Character::Move(Map* map, int key) {
+    m_nextX = m_playerX;
+    m_nextY = m_playerY;
+
+    if (key & PAD_INPUT_RIGHT) m_nextX += m_playerSpeed;
+    if (key & PAD_INPUT_LEFT)  m_nextX -= m_playerSpeed;
 
     if (map != nullptr) {
-        if (!map->IsWall(nextX, nextY)) {
-            m_playerX = nextX;
-            m_playerY = nextY;
+        if (!map->IsWall(m_nextX, m_nextY)) {
+            m_playerX = m_nextX;
+            m_playerY = m_nextY;
         }
     }
     else {
-        m_playerX = nextX;
-        m_playerY = nextY;
+        m_playerX = m_nextX;
+        m_playerY = m_nextY;
     }
 }
 
+void Character::Jump(int key) {
+    if (m_isGrounded && (key & PAD_INPUT_UP)) {
+        m_velocityY = kJumpPower; // 上方向へ初速を与える
+        m_isGrounded = false;     // 空中判定にする
+    }
+}
+
+void Character::Gravity(Map* map) {
+    m_velocityY += kGravity;
+    float nextY = m_playerY + m_velocityY;
+
+    if (map != nullptr) {
+        if (!map->IsWall(m_playerX, nextY)) {
+            m_playerY = nextY;
+            m_isGrounded = false;
+        }
+        else {
+            if (m_velocityY > 0) {
+                m_isGrounded = true;
+            }
+            m_velocityY = 0.0f;
+        }
+    }
+    else {
+        m_playerY = nextY;
+    }
+}
 
 void Character::Draw() const {
     if (m_idleHandles[m_currentFrame] != -1) {

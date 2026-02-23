@@ -1,6 +1,4 @@
 #pragma once
-#include <stdexcept>
-#include <string>
 #include "DrowInterface/DrawableList.h"
 
 class Map;
@@ -12,10 +10,24 @@ public:
     void Update(class Map* map);
     void Draw() const override;
 	int GetY() const { return m_playerY; }
+    int m_playerSpeed = 3;
 
 private:
-    int m_playerX;
-    int m_playerY;
+    void Move(class Map* map, int key);
+    void Jump(int key);
+    void Gravity(class Map* map);
+
+    float m_playerX;
+    float m_playerY;
+    float m_nextX;
+    float m_nextY;
+    float m_velocityY;
+
+    //重力
+    bool m_isGrounded;
+    static constexpr float kGravity   = 0.98f;
+    static constexpr float kJumpPower = -8.0f;
+
     // アニメーション定数（画像に合わせて調整してください）
     static constexpr int kIdleFrameCount = 6;  // 画像のコマ数
     static constexpr int kAnimSpeed = 8;       // アニメーションの速度（大きいほど遅い）
