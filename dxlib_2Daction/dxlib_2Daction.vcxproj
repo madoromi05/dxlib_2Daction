@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Collider\Collider.cpp" />
     <ClCompile Include="src\Scene\BattleScene.cpp" />
     <ClCompile Include="src\Player\Character.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -28,6 +29,7 @@
     <ClCompile Include="src\ScreanSizeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Collider\Collider.h" />
     <ClInclude Include="src\DrowInterface\IDrawable.h" />
     <ClInclude Include="src\DrowInterface\DrawableList.h" />
     <ClInclude Include="src\map\StageInformation.h" />

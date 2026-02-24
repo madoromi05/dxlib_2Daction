@@ -1,33 +1,65 @@
 #pragma once
 #include "DrowInterface/DrawableList.h"
+#include "Collider/Collider.h"
+#include <vector>
 
 class Map;
 
-class Character : public IDrawable{
+enum class ColliderType {
+    Body = 0, // 地形との当たり判定用
+    Attack,   // 敵への攻撃判定用（例）
+    Damage,   // 敵からダメージを受ける判定用（例）
+    Count     // 種類の総数
+};
+
+class Character : public IDrawable {
 public:
     Character();
     void Initialize();
     void Update(class Map* map);
     void Draw() const override;
-	int GetY() const { return m_playerY; }
+
+    int GetY() const { return m_playerY; }
     int m_playerSpeed = 3;
 
 private:
     void Move(class Map* map, int key);
-    void Jump(int key);
-    void Gravity(class Map* map);
+    void ResetJumpParam();
+    void JumpMove(class Map* map, bool jumpBtnPress);
+    void JumpCheck(bool jumpBtnPress);
+    void PreparingJump();
+    void MoveProcess(class Map* map, bool jumpBtnPress);
+    void Physics(class Map* map);
 
     float m_playerX;
     float m_playerY;
-    float m_nextX;
-    float m_nextY;
-    float m_velocityY;
+
+    std::vector<Collider> m_colliders;
+    bool m_isDebugMode;
 
     //重力
-    bool m_isGrounded;
-    static constexpr float kGravity   = 0.98f;
-    static constexpr float kJumpPower = -8.0f;
+    static constexpr float kGravity = 0.98f;
+  
+    // ジャンプ
+    int m_verticalPositionOrigin;	// ジャンプ開始時の位置
+    int m_verticalSpeed;			// 速度
+    int m_verticalForce;			// 現在の加速度
+    int m_verticalForceFall;		// 降下時の加速度
+    int m_verticalForceDecimalPart;	// 加速度の増加値
+    int m_correctionValue;			// 累積計算での補正値
+    int m_horizontalSpeed = 00;		// 横方向速度
 
+    bool m_jumpBtnPrevPress;            // 1フレーム前のジャンプボタン押下状態
+    bool m_isGrounded;                  // 地面にいるか
+    
+    // ジャンプ開始時の初期パラメータ
+    static constexpr uint8_t kVerticalForceDecimalPartData[5] = { 0x20, 0x20, 0x1e, 0x28, 0x28 };
+    static constexpr uint8_t kVerticalFallForceData[5] = { 0x70, 0x70, 0x60, 0x90, 0x90 };
+    static constexpr int8_t  kInitialVerticalSpeedData[5] = { -4, -4, -4, -5, -5 };
+    static constexpr uint8_t kInitialVerticalForceData[5] = { 0x00, 0x00, 0x00, 0x00, 0x00 };
+
+    static constexpr int8_t kDownSpeedLimit = 0x04; // 落下時の最大速度
+    
     // アニメーション定数（画像に合わせて調整してください）
     static constexpr int kIdleFrameCount = 6;  // 画像のコマ数
     static constexpr int kAnimSpeed = 8;       // アニメーションの速度（大きいほど遅い）

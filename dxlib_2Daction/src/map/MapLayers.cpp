@@ -1,4 +1,5 @@
 #include "MapLayers.h"
+#include "Collider/Collider.h"
 
 bool FileExists(const std::string& path) {
     std::ifstream fs(path);
@@ -41,7 +42,9 @@ void BackgroundLayer::Draw() const {
 // ==========================================
 // TileLayer の実装
 // ==========================================
-TileLayer::TileLayer() {
+TileLayer::TileLayer()
+    : m_isDebugMode(true)
+{
     for (auto& h : m_tileHandles) h = -1;
 
     // マップデータ定義（枠だけ壁の例）
@@ -50,6 +53,14 @@ TileLayer::TileLayer() {
             m_mapData[y][x] = 0;
         }
     }
+
+    // 全部のタイルを「通過可能 (false)」にする
+    for (int i = 0; i < stage_information::kTileTotalNum; ++i) {
+        m_collisionTable[i] = false;
+    }
+
+    // 壁や床にしたいタイルの画像番号をtrueにする
+    m_collisionTable[3] = true;
 }
 
 void TileLayer::LoadMapData(const std::string& filePath) {
@@ -112,6 +123,16 @@ void TileLayer::Draw() const {
                     drawY + stage_information::kMapGridSize,
                     m_tileHandles[id], TRUE
                 );
+
+                if (m_isDebugMode && m_collisionTable[id]) {
+                    // 当たり判定の枠線（赤色）を描画する
+                    DrawBox(
+                        drawX, drawY,
+                        drawX + stage_information::kMapGridSize,
+                        drawY + stage_information::kMapGridSize,
+                        GetColor(255, 0, 0), FALSE
+                    );
+                }
             }
         }
     }
@@ -120,8 +141,21 @@ void TileLayer::Draw() const {
 bool TileLayer::IsWall(float x, float y) {
     int xi = (int)x / stage_information::kMapGridSize;
     int yi = (int)y / stage_information::kMapGridSize;
-    if (xi < 0 || xi >= stage_information::kMapWidth || yi < 0 || yi >= stage_information::kMapHeight) return true;
-    return (m_mapData[yi][xi] == 3);
+    if (xi < 0 || xi >= stage_information::kMapWidth || yi < 0 || yi >= stage_information::kMapHeight) {
+        return true;
+    }
+
+    int id = m_mapData[yi][xi];
+
+    if (id < 0) {
+        return false;
+    }
+
+    if (id >= stage_information::kTileTotalNum) {
+        return true;
+    }
+
+    return m_collisionTable[id];
 }
 
 // ==========================================
