@@ -52,13 +52,14 @@ private:
     bool m_jumpBtnPrevPress;            // 1フレーム前のジャンプボタン押下状態
     bool m_isGrounded;                  // 地面にいるか
     
-    // ジャンプ開始時の初期パラメータ
-    static constexpr uint8_t kVerticalForceDecimalPartData[5] = { 0x20, 0x20, 0x1e, 0x28, 0x28 };
-    static constexpr uint8_t kVerticalFallForceData[5] = { 0x70, 0x70, 0x60, 0x90, 0x90 };
-    static constexpr int8_t  kInitialVerticalSpeedData[5] = { -4, -4, -4, -5, -5 };
-    static constexpr uint8_t kInitialVerticalForceData[5] = { 0x00, 0x00, 0x00, 0x00, 0x00 };
+    // ジャンプ開始時の初期パラメータ(速度によって変わる)
+    static constexpr int kVerticalForceDecimalPartData[5] = { 40, 40, 30, 60, 60 };  // 上昇中の重力
+    static constexpr int kVerticalFallForceData[5] = { 100, 100, 80, 140, 140 };     // 落下中・小ジャンプ時の重力
+    static constexpr int kInitialVerticalSpeedData[5] = { -7, -7, -8, -10, -12 };    // ジャンプの初速度
+    static constexpr int kInitialVerticalForceData[5] = { 0, 0, 0, 0, 0 };           // 初期加速度
 
-    static constexpr int8_t kDownSpeedLimit = 0x04; // 落下時の最大速度
+    // 落下速度の最大値
+    static constexpr int kDownSpeedLimit = 1000;
     
     // アニメーション定数（画像に合わせて調整してください）
     static constexpr int kIdleFrameCount = 6;  // 画像のコマ数

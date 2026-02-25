@@ -142,7 +142,7 @@ bool TileLayer::IsWall(float x, float y) {
     int xi = (int)x / stage_information::kMapGridSize;
     int yi = (int)y / stage_information::kMapGridSize;
     if (xi < 0 || xi >= stage_information::kMapWidth || yi < 0 || yi >= stage_information::kMapHeight) {
-        return true;
+        return false;
     }
 
     int id = m_mapData[yi][xi];

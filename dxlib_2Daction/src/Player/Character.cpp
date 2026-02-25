@@ -165,7 +165,7 @@ void Character::MoveProcess(Map* map, bool jumpBtnPress){
 void Character::Physics(Map* map) {
     int bodyIdx = static_cast<int>(ColliderType::Body);
     if (m_isGrounded && map != nullptr) {
-        if (!m_colliders[bodyIdx].IsCollidingWithMap(map, m_playerX, m_playerY + 10.0f)) {
+        if (!m_colliders[bodyIdx].IsCollidingWithMap(map, m_playerX, m_playerY + 1.0f)) {
             m_isGrounded = false; // 足場がないので落下開始
             m_verticalForce = kVerticalFallForceData[0]; // 最低限の落下加速度をセット
         }
@@ -185,8 +185,7 @@ void Character::Physics(Map* map) {
     // 加速度の固定少数点部への加算
     // 1バイトをオーバーフローしたら、速度が加算される。その時、加速度の整数部は0に戻される
     m_verticalForceDecimalPart += m_verticalForce;
-    if (m_verticalForceDecimalPart >= 256)
-    {
+    while (m_verticalForceDecimalPart >= 256) {
         m_verticalForceDecimalPart -= 256;
         m_verticalSpeed++;
     }
@@ -228,10 +227,10 @@ void Character::PreparingJump() {
     int absSpeed = std::abs(m_horizontalSpeed);
 
     // 慣性に応じた軌道（ジャンプ力の分岐）
-    if (absSpeed >= 0x1c) idx++;
-    if (absSpeed >= 0x19) idx++;
-    if (absSpeed >= 0x10) idx++;
-    if (absSpeed >= 0x09) idx++;
+    if (absSpeed >= 5) idx++;
+    if (absSpeed >= 4) idx++;
+    if (absSpeed >= 3) idx++;
+    if (absSpeed >= 1) idx++;
 
     m_verticalForce = kVerticalForceDecimalPartData[idx];
     m_verticalForceFall = kVerticalFallForceData[idx];
@@ -257,7 +256,7 @@ void Character::Draw() const {
         // Body (緑)
         m_colliders[static_cast<int>(ColliderType::Body)].DrawDebug(m_playerX, m_playerY, GetColor(0, 255, 0));
         
-        // Attack (赤) ※攻撃ボタンを押している時だけ描画するなどの工夫も可能です
+        // Attack (赤)
         m_colliders[static_cast<int>(ColliderType::Attack)].DrawDebug(m_playerX, m_playerY, GetColor(255, 0, 0));
         
         // Damage (青)
