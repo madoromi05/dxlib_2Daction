@@ -60,7 +60,10 @@ TileLayer::TileLayer()
     }
 
     // •Ç‚â°‚É‚µ‚½‚¢ƒ^ƒCƒ‹‚Ì‰æ‘œ”Ô†‚ğtrue‚É‚·‚é
-    m_collisionTable[3] = true;
+    m_collisionTable[4] = true;
+    m_collisionTable[0] = true;
+    m_collisionTable[41] = true;
+    m_collisionTable[42] = true;
 }
 
 void TileLayer::LoadMapData(const std::string& filePath) {
@@ -139,8 +142,8 @@ void TileLayer::Draw() const {
 }
 
 bool TileLayer::IsWall(float x, float y) {
-    int xi = (int)x / stage_information::kMapGridSize;
-    int yi = (int)y / stage_information::kMapGridSize;
+    int xi = static_cast<int>(std::floor(x / static_cast<float>(stage_information::kMapGridSize)));
+    int yi = static_cast<int>(std::floor(y / static_cast<float>(stage_information::kMapGridSize)));
     if (xi < 0 || xi >= stage_information::kMapWidth || yi < 0 || yi >= stage_information::kMapHeight) {
         return false;
     }

@@ -8,11 +8,11 @@ namespace stage_information {
 
     // マップ全体の大きさを決める定数
     constexpr int kMapGridSize = 32;        // ゲーム画面上の1マスの大きさ
-    constexpr int kMapWidth = 26;           // マップの横のマス数
-    constexpr int kMapHeight = 15;          // マップの縦のマス数
+    constexpr int kMapWidth = 40;           // マップの横のマス数
+    constexpr int kMapHeight = 23;          // マップの縦のマス数
 
     // 計算済みのステージ全体のピクセルサイズ
-    constexpr int kStagePixelWidth = kMapWidth * kMapGridSize;
+    constexpr int kStagePixelWidth  = kMapWidth * kMapGridSize;
     constexpr int kStagePixelHeight = kMapHeight * kMapGridSize;
 
     // タイル画像に関する定数
@@ -24,6 +24,6 @@ namespace stage_information {
 	// Zオーダーの定数
     constexpr int kZOrderBackground = -100; // 最背面：遠景
     constexpr int kZOrderTile = -50;        // 地面・壁：タイルのレイヤー
-    constexpr int kZOrderObjectBase = 0;     // 物体：これにY座標を足して、物体同士の前後を表現する
+    constexpr int kZOrderObjectBase = 0;    // 物体：これにY座標を足して、物体同士の前後を表現する
     constexpr int kZOrderUI = 100;          // 最前面：UIや文字など
 }
