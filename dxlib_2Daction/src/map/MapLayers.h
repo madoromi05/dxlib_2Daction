@@ -55,8 +55,7 @@ class TileLayer : public MapLayer, public IDrawable {
 private:
     int m_tileHandles[stage_information::kTileTotalNum]{};                        // 画像ハンドル配列
 	int m_mapData[stage_information::kMapHeight][stage_information::kMapWidth];   // マップ配置データ
-
-    bool m_collisionTable[stage_information::kTileTotalNum]{};
+    int m_collisionTable[stage_information::kTileTotalNum]{};
     bool m_isDebugMode;
 
 public:

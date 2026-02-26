@@ -51,6 +51,7 @@ private:
 
     bool m_jumpBtnPrevPress;            // 1フレーム前のジャンプボタン押下状態
     bool m_isGrounded;                  // 地面にいるか
+	bool m_isJumping;                   // ジャンプ中かどうか
     
     // ジャンプ開始時の初期パラメータ(速度によって変わる)
     static constexpr int kVerticalForceDecimalPartData[5] = { 40, 40, 30, 60, 60 };  // 上昇中の重力
@@ -60,7 +61,8 @@ private:
 
     // 落下速度の最大値
     static constexpr int kDownSpeedLimit = 1000;
-    
+	static constexpr int kNormalGravity = 150;      //非Jump中の重力
+
     // アニメーション定数（画像に合わせて調整してください）
     static constexpr int kIdleFrameCount = 6;  // 画像のコマ数
     static constexpr int kAnimSpeed = 8;       // アニメーションの速度（大きいほど遅い）

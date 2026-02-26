@@ -2,6 +2,7 @@
 #include "map/Map.h"
 #include "map/StageInformation.h"
 #include "DxLib.h"
+#include <algorithm>
 
 Collider::Collider(float width, float height, float offsetX, float offsetY)
     : m_width(width)
@@ -29,9 +30,24 @@ bool Collider::IsCollidingWithMap(Map* map, float nextX, float nextY) const {
     // 矩形がかぶっている全てのマス目に対して、壁かどうかチェックする
     for (int y = startY; y <= endY; ++y) {
         for (int x = startX; x <= endX; ++x) {
+            float tileLeft = x * stage_information::kMapGridSize;
+            float tileRight = tileLeft + stage_information::kMapGridSize - 0.1f;
+            float tileTop = y * stage_information::kMapGridSize;
+            float tileBottom = tileTop + stage_information::kMapGridSize - 0.1f;
+
+            float overlapLeft   = (std::max)(left, tileLeft);
+            float overlapRight  = (std::min)(right, tileRight);
+            float overlapTop    = (std::max)(top, tileTop);
+            float overlapBottom = (std::min)(bottom, tileBottom);
+
             // map->IsWall にはピクセル座標を渡す仕様なので、マスの左上座標に変換して渡す
-            if (map->IsWall(x * stage_information::kMapGridSize, y * stage_information::kMapGridSize)) {
-                return true; // 1つでも壁があれば衝突している
+            if (overlapLeft <= overlapRight && overlapTop <= overlapBottom) {
+                if (map->IsWall(overlapLeft, overlapBottom) ||
+                    map->IsWall(overlapRight, overlapBottom) ||
+                    map->IsWall(overlapLeft, overlapTop) ||
+                    map->IsWall(overlapRight, overlapTop)) {
+                    return true;
+                }
             }
         }
     }

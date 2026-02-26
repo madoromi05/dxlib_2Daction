@@ -23,6 +23,7 @@ Character::Character()
     , m_animTimer(0)
     , m_currentFrame(0)
     , m_isDebugMode(true)
+	, m_isJumping(false)
 {
     // ハンドル配列を無効値で初期化
     for (int i = 0; i < kIdleFrameCount; ++i) {
@@ -48,17 +49,17 @@ void Character::Initialize() {
 
     // キャラクターの初期位置をセット
     m_playerX = 0;
-    m_playerY = 100;
+    m_playerY = 475;
 
     m_colliders.clear();
     // [0] Body (地形判定用: 緑色で表示予定)
-    m_colliders.push_back(Collider(64.0f, 120.0f, 32.0f, 8.0f));
+    m_colliders.push_back(Collider(60.0f, 90.0f, 34.0f, 40.0f));
 
     // [1] Attack (攻撃判定用: 赤色で表示予定。例として右側に突き出した横長の判定)
     m_colliders.push_back(Collider(60.0f, 40.0f, 96.0f, 40.0f));
 
     // [2] Damage (被ダメージ判定用: 青色で表示予定。Bodyより一回り小さい判定)
-    m_colliders.push_back(Collider(48.0f, 100.0f, 40.0f, 18.0f));
+    m_colliders.push_back(Collider(48.0f, 70.0f, 40.0f, 48.0f));
 
     ResetJumpParam();
 }
@@ -70,6 +71,7 @@ void Character::ResetJumpParam() {
     m_verticalForceDecimalPart = 0;
     m_correctionValue = 0;
     m_isGrounded = true;
+	m_isJumping = false;
 }
 
 void Character::Update(Map* map) {
@@ -115,6 +117,29 @@ void Character::Move(Map* map, int key) {
         if (!m_colliders[bodyIdx].IsCollidingWithMap(map, nextX, m_playerY)) {
             m_playerX = nextX;
         }
+        else {
+            // ② 進めない場合、段差・スロープを登れるか試す (Step-Up)
+            float stepHeight = static_cast<float>(m_playerSpeed) + 2.0f;
+            bool canStepUp = false;
+
+            // 2ピクセルずつ上に持ち上げて、ぶつからない高さがあるか探す
+            for (float s = 2.0f; s <= stepHeight; s += 2.0f) {
+                if (!m_colliders[bodyIdx].IsCollidingWithMap(map, nextX, m_playerY - s)) {
+                    m_playerX = nextX;    // 横に進む
+                    m_playerY -= s;       // 坂の分だけ上に押し上げる
+                    canStepUp = true;
+                    break;
+                }
+            }
+
+            // 登れない壁だった場合は、当たる直前まで進んで止まる
+            if (!canStepUp) {
+                float step = (nextX > m_playerX) ? 1.0f : -1.0f;
+                while (!m_colliders[bodyIdx].IsCollidingWithMap(map, m_playerX + step, m_playerY)) {
+                    m_playerX += step;
+                }
+            }
+        }
     }
     else {
         m_playerX = nextX;
@@ -144,7 +169,7 @@ void Character::MoveProcess(Map* map, bool jumpBtnPress){
     // 速度が0かプラスなら画面下へ進んでいるものとして落下状態の加速度に切り替える
     if (m_verticalSpeed >= 0)
     {
-        m_verticalForce = m_verticalForceFall;
+        m_verticalForce = m_isJumping ? m_verticalForceFall : kNormalGravity;
     }
     else
     {
@@ -165,9 +190,11 @@ void Character::MoveProcess(Map* map, bool jumpBtnPress){
 void Character::Physics(Map* map) {
     int bodyIdx = static_cast<int>(ColliderType::Body);
     if (m_isGrounded && map != nullptr) {
+        // 足場から落ちた場合
         if (!m_colliders[bodyIdx].IsCollidingWithMap(map, m_playerX, m_playerY + 1.0f)) {
-            m_isGrounded = false; // 足場がないので落下開始
-            m_verticalForce = kVerticalFallForceData[0]; // 最低限の落下加速度をセット
+            m_isGrounded = false;
+			m_verticalForce = kNormalGravity;   // 落下状態の加速度をセット
+            // m_verticalForce = kVerticalFallForceData[0]; // 最低限の落下加速度をセット
         }
     }
 
@@ -222,6 +249,7 @@ void Character::PreparingJump() {
     m_verticalForceDecimalPart = 0;
     m_verticalPositionOrigin = static_cast<int>(m_playerY);
     m_isGrounded = false; // Jumping状態へ
+	m_isJumping  = true;
 
     int idx = 0;
     int absSpeed = std::abs(m_horizontalSpeed);
