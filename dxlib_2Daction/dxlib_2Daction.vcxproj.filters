@@ -45,6 +45,9 @@
     <ClCompile Include="src\Collider\Collider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\Player\SpriteAnimation.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Scene\SceneChanger.h">
@@ -83,11 +86,11 @@
     <ClInclude Include="src\Collider\Collider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="src\Player\SpriteAnimation.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resorce\Beryl.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
     <Image Include="resorce\Tileset.png">
       <Filter>リソース ファイル</Filter>
     </Image>
@@ -101,6 +104,9 @@
       <Filter>リソース ファイル</Filter>
     </Image>
     <Image Include="resorce\Tree.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="resorce\Jump.png">
       <Filter>リソース ファイル</Filter>
     </Image>
   </ItemGroup>

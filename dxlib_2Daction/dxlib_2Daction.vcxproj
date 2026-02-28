@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Collider\Collider.cpp" />
+    <ClCompile Include="src\Player\SpriteAnimation.cpp" />
     <ClCompile Include="src\Scene\BattleScene.cpp" />
     <ClCompile Include="src\Player\Character.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="src\DrowInterface\IDrawable.h" />
     <ClInclude Include="src\DrowInterface\DrawableList.h" />
     <ClInclude Include="src\map\StageInformation.h" />
+    <ClInclude Include="src\Player\SpriteAnimation.h" />
     <ClInclude Include="src\Scene\BattleScene.h" />
     <ClInclude Include="src\Player\Character.h" />
     <ClInclude Include="src\Scene\IScene.h" />
@@ -44,9 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resorce\Background.png" />
-    <Image Include="resorce\Beryl.png" />
     <Image Include="resorce\Bush.png" />
     <Image Include="resorce\Idle.png" />
+    <Image Include="resorce\Jump.png" />
     <Image Include="resorce\Tileset.png" />
     <Image Include="resorce\Tree.png" />
   </ItemGroup>

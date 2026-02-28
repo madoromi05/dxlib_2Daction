@@ -20,48 +20,65 @@ Character::Character()
     , m_horizontalSpeed(0)
     , m_jumpBtnPrevPress(false)
     , m_isGrounded(false)
-    , m_animTimer(0)
-    , m_currentFrame(0)
     , m_isDebugMode(true)
 	, m_isJumping(false)
-{
-    // ハンドル配列を無効値で初期化
-    for (int i = 0; i < kIdleFrameCount; ++i) {
-        m_idleHandles[i] = -1;
-    }
-}
+    , m_currentAnimation(nullptr)
+    , m_currentState(AnimState::Idle)
+{}
 
 void Character::Initialize() {
-    int result = LoadDivGraph(
-        ResourcePath::Player::PLAYER_IMAGE,
-        kIdleFrameCount,                    // 総数: 6
-        kIdleFrameCount,                    // 横の数: 6
-        1,                                  // 縦の数: 1
-        kChipWidth,                         // 1コマの幅
-        kChipHeight,                        // 1コマの高さ
-        m_idleHandles                       // 保存先配列
-    );
+    int idleIdx = static_cast<int>(AnimState::Idle);
+    m_animations[idleIdx].Load(ResourcePath::Player::PLAYER_IDLE, 6, 6, 1, 128, 128);
+    m_animations[idleIdx].SetAnimSpeed(8);
+    m_animations[idleIdx].SetLoop(true);
 
-    if (result == -1) {
-        std::string errorMsg = "画像の読み込みに失敗しました。\nパス: ";
-        throw std::runtime_error(errorMsg);
-    }
+	// ジャンプの上昇アニメーション
+    int jumpUpIdx = static_cast<int>(AnimState::JumpUp);
+    m_animations[jumpUpIdx].Load(ResourcePath::Player::PLAYER_JUMP, 6, 6, 1, 128, 128);
+    m_animations[jumpUpIdx].SetAnimSpeed(8);
+    m_animations[jumpUpIdx].SetLoop(false);
+
+    // 落下アニメーション読み込み
+    int jumpDownIdx = static_cast<int>(AnimState::JumpDown);
+    m_animations[jumpDownIdx].Load(ResourcePath::Player::PLAYER_JUMP, 1, 1, 1, 128, 128);
+    m_animations[jumpDownIdx].SetAnimSpeed(8);
+    m_animations[jumpDownIdx].SetLoop(false);
+
+	// 走りアニメーション読み込み
+    int runIdx = static_cast<int>(AnimState::Run);
+    m_animations[runIdx].Load(ResourcePath::Player::PLAYER_RUN, 8, 8, 1, 128, 128);
+    m_animations[runIdx].SetAnimSpeed(10);
+    m_animations[runIdx].SetLoop(true);
+
+    // 初期状態をIdleにセット
+    m_currentAnimation = &m_animations[idleIdx];
+    m_currentState = AnimState::Idle;
 
     // キャラクターの初期位置をセット
     m_playerX = 0;
     m_playerY = 475;
 
+    m_isFacingLeft = false;
+
     m_colliders.clear();
-    // [0] Body (地形判定用: 緑色で表示予定)
+    // 地形判定用: 緑色
     m_colliders.push_back(Collider(60.0f, 90.0f, 34.0f, 40.0f));
 
-    // [1] Attack (攻撃判定用: 赤色で表示予定。例として右側に突き出した横長の判定)
+    // 攻撃判定用: 赤色
     m_colliders.push_back(Collider(60.0f, 40.0f, 96.0f, 40.0f));
 
-    // [2] Damage (被ダメージ判定用: 青色で表示予定。Bodyより一回り小さい判定)
+    // 被ダメージ判定用: 青色
     m_colliders.push_back(Collider(48.0f, 70.0f, 40.0f, 48.0f));
 
     ResetJumpParam();
+}
+
+void Character::ChangeAnimation(AnimState newState) {
+    if (m_currentState == newState) return;
+
+    m_currentState = newState;
+    m_currentAnimation = &m_animations[static_cast<int>(newState)];
+    m_currentAnimation->Reset();
 }
 
 void Character::ResetJumpParam() {
@@ -75,16 +92,7 @@ void Character::ResetJumpParam() {
 }
 
 void Character::Update(Map* map) {
-    m_animTimer++;        // タイマーを進める
-    if (m_animTimer >= kAnimSpeed) {
-        m_animTimer = 0;  // タイマーリセット
-        m_currentFrame++; // 次のコマへ
-
-        // 最後のコマまで行ったら最初(0)に戻す
-        if (m_currentFrame >= kIdleFrameCount) {
-            m_currentFrame = 0;
-        }
-    }
+    m_idleAnimation.Update();
 
     int key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
@@ -94,6 +102,27 @@ void Character::Update(Map* map) {
     // ジャンプと重力の処理
     bool jumpBtnPress = (key & PAD_INPUT_UP) != 0;
     JumpMove(map, jumpBtnPress);
+
+    if (m_isGrounded) {
+        if (m_horizontalSpeed != 0) {
+            ChangeAnimation(AnimState::Run); // 地面にいて速度があるなら「走り」
+        }
+        else {
+            ChangeAnimation(AnimState::Idle); // 止まっているなら「待機」
+        }
+    }
+    else {
+        if (m_verticalSpeed < 0) {
+            ChangeAnimation(AnimState::JumpUp); // 上に飛んでいるなら「上昇」
+        }
+        else {
+            ChangeAnimation(AnimState::JumpDown); // 落ちているなら「落下」
+        }
+    }
+    // 現在選択されているアニメーションだけを更新する
+    if (m_currentAnimation != nullptr) {
+        m_currentAnimation->Update();
+    }
 }
 
 // Playerの入力による移動
@@ -103,10 +132,12 @@ void Character::Move(Map* map, int key) {
     if (key & PAD_INPUT_RIGHT) {
         nextX += m_playerSpeed;
         m_horizontalSpeed = m_playerSpeed;
+        m_isFacingLeft = false;
     }
     else if (key & PAD_INPUT_LEFT) {
         nextX -= m_playerSpeed;
         m_horizontalSpeed = -m_playerSpeed;
+        m_isFacingLeft = true;
     }
     else {
         m_horizontalSpeed = 0;
@@ -118,7 +149,7 @@ void Character::Move(Map* map, int key) {
             m_playerX = nextX;
         }
         else {
-            // ② 進めない場合、段差・スロープを登れるか試す (Step-Up)
+            // 進めない場合、段差・スロープを登れるか試す
             float stepHeight = static_cast<float>(m_playerSpeed) + 2.0f;
             bool canStepUp = false;
 
@@ -180,6 +211,8 @@ void Character::MoveProcess(Map* map, bool jumpBtnPress){
             {
                 // 落下状態の加速度値に切り替える
                 m_verticalForce = m_verticalForceFall;
+                m_verticalSpeed /= 2;
+                m_verticalForceDecimalPart = 0;
             }
         }
     }
@@ -267,32 +300,22 @@ void Character::PreparingJump() {
 }
 
 void Character::Draw() const {
-    if (m_idleHandles[m_currentFrame] != -1) {
-        int oldMode = GetDrawMode();
-        SetDrawMode(DX_DRAWMODE_BILINEAR);
+    if (m_currentAnimation != nullptr) {
+        m_currentAnimation->Draw(m_playerX, m_playerY, kDrawWidth, kDrawHeight, m_isFacingLeft);
+    }
 
-        DrawExtendGraph(
-            m_playerX,
-            m_playerY,
-            m_playerX + kDrawWidth,  // 定数を使う
-            m_playerY + kDrawHeight, // 定数を使う
-            m_idleHandles[m_currentFrame],
-            TRUE
-        );
-        SetDrawMode(oldMode);
-        if (m_isDebugMode) {
-        // Body (緑)
-        m_colliders[static_cast<int>(ColliderType::Body)].DrawDebug(m_playerX, m_playerY, GetColor(0, 255, 0));
+    m_idleAnimation.Draw(m_playerX, m_playerY, kDrawWidth, kDrawHeight);
+    if (m_isDebugMode) {
+    // Body (緑)
+    m_colliders[static_cast<int>(ColliderType::Body)].DrawDebug(m_playerX, m_playerY, GetColor(0, 255, 0));    
+    // Attack (赤)
+    m_colliders[static_cast<int>(ColliderType::Attack)].DrawDebug(m_playerX, m_playerY, GetColor(255, 0, 0));
         
-        // Attack (赤)
-        m_colliders[static_cast<int>(ColliderType::Attack)].DrawDebug(m_playerX, m_playerY, GetColor(255, 0, 0));
-        
-        // Damage (青)
-        m_colliders[static_cast<int>(ColliderType::Damage)].DrawDebug(m_playerX, m_playerY, GetColor(0, 0, 255));
+    // Damage (青)
+    m_colliders[static_cast<int>(ColliderType::Damage)].DrawDebug(m_playerX, m_playerY, GetColor(0, 0, 255));
 
-        DrawFormatString(0, 0, GetColor(255, 255, 255), "Grounded: %d", m_isGrounded);
-        DrawFormatString(0, 20, GetColor(255, 255, 255), "Speed Y : %d", m_verticalSpeed);
-        DrawFormatString(0, 40, GetColor(255, 255, 255), "Player Y: %.1f", m_playerY);
-        }
+    DrawFormatString(0, 0, GetColor(255, 255, 255), "Grounded: %d", m_isGrounded);
+    DrawFormatString(0, 20, GetColor(255, 255, 255), "Speed Y : %d", m_verticalSpeed);
+    DrawFormatString(0, 40, GetColor(255, 255, 255), "Player Y: %.1f", m_playerY);
     }
 }
