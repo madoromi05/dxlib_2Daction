@@ -15,6 +15,7 @@ namespace ResourcePath
 	{
 		constexpr const char* PLAYER_IDLE = "Idle.png";
 		constexpr const char* PLAYER_JUMP = "Jump.png";
+		constexpr const char* PLAYER_DOWNJUMP = "DowmJump.png";
 		constexpr const char* PLAYER_RUN  = "Run.png";
 	}
 

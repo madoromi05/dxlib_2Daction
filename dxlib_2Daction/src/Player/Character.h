@@ -31,13 +31,13 @@ public:
     int m_playerSpeed = 3;
 
 private:
-    void Move(class Map* map, int key);
-    void ResetJumpParam();
-    void JumpMove(class Map* map, bool jumpBtnPress);
-    void JumpCheck(bool jumpBtnPress);
-    void PreparingJump();
-    void MoveProcess(class Map* map, bool jumpBtnPress);
-    void Physics(class Map* map);
+    void Move(class Map* map, int key);                         // Playerの横入力による移動
+	void ResetJumpParam();                                      // ジャンプから地面にいる状態にする
+	void JumpMove(class Map* map, bool jumpBtnPress);           // ジャンプと重力の処理
+	void JumpCheck(bool jumpBtnPress);                          // ジャンプの条件チェック
+	void PreparingJump();                                       // ジャンプ開始の準備
+	void MoveProcess(class Map* map, bool jumpBtnPress);        // ジャンプと重力の処理
+	void Physics(class Map* map);                               // ジャンプと重力の物理計算
 
     SpriteAnimation m_idleAnimation;
 

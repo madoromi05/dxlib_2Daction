@@ -24,6 +24,7 @@ Character::Character()
 	, m_isJumping(false)
     , m_currentAnimation(nullptr)
     , m_currentState(AnimState::Idle)
+	, m_isFacingLeft(false)
 {}
 
 void Character::Initialize() {
@@ -35,13 +36,13 @@ void Character::Initialize() {
 	// ジャンプの上昇アニメーション
     int jumpUpIdx = static_cast<int>(AnimState::JumpUp);
     m_animations[jumpUpIdx].Load(ResourcePath::Player::PLAYER_JUMP, 6, 6, 1, 128, 128);
-    m_animations[jumpUpIdx].SetAnimSpeed(8);
+    m_animations[jumpUpIdx].SetAnimSpeed(5);
     m_animations[jumpUpIdx].SetLoop(false);
 
     // 落下アニメーション読み込み
     int jumpDownIdx = static_cast<int>(AnimState::JumpDown);
-    m_animations[jumpDownIdx].Load(ResourcePath::Player::PLAYER_JUMP, 1, 1, 1, 128, 128);
-    m_animations[jumpDownIdx].SetAnimSpeed(8);
+    m_animations[jumpDownIdx].Load(ResourcePath::Player::PLAYER_DOWNJUMP, 6, 6, 1, 128, 128);
+    m_animations[jumpDownIdx].SetAnimSpeed(5);
     m_animations[jumpDownIdx].SetLoop(false);
 
 	// 走りアニメーション読み込み
@@ -125,7 +126,6 @@ void Character::Update(Map* map) {
     }
 }
 
-// Playerの入力による移動
 void Character::Move(Map* map, int key) {
     float nextX = m_playerX;
 
@@ -310,7 +310,6 @@ void Character::Draw() const {
     m_colliders[static_cast<int>(ColliderType::Body)].DrawDebug(m_playerX, m_playerY, GetColor(0, 255, 0));    
     // Attack (赤)
     m_colliders[static_cast<int>(ColliderType::Attack)].DrawDebug(m_playerX, m_playerY, GetColor(255, 0, 0));
-        
     // Damage (青)
     m_colliders[static_cast<int>(ColliderType::Damage)].DrawDebug(m_playerX, m_playerY, GetColor(0, 0, 255));
 
