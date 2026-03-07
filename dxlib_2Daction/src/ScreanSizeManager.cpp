@@ -25,7 +25,7 @@ bool ScreenSizeManager::Initialize() {
     m_logicalWidth = static_cast<int>(m_logicalHeight * aspect);
 
     // DxLibÇÃê›íË
-    SetCurrentDirectory("resorce");
+    SetCurrentDirectory("resource");
     SetGraphMode(m_monitorWidth, m_monitorHeight, 32);
     ChangeWindowMode(TRUE);
     SetWindowStyleMode(7);

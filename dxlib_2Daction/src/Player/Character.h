@@ -12,7 +12,7 @@ enum class AnimState {
     JumpUp,     // ジャンプ上昇中
     JumpDown,   // 落下中
     Attack,     // 攻撃
-    Count       // 状態の総数
+    Count       // 状態の総数（最後に配置）
 };
 
 enum class ColliderType {
@@ -30,7 +30,6 @@ public:
     void Draw(float cameraX, float cameraY) const override;
     int GetY() const { return m_playerY; }
     int GetX() const { return m_playerX; }
-    int m_playerSpeed = 2;
 
 private:
     void Move(class Map* map, int key);                         // Playerの横入力による移動
@@ -45,6 +44,8 @@ private:
 
     float m_playerX;
     float m_playerY;
+
+    int m_playerSpeed = 2;
 
     std::vector<Collider> m_colliders;
     bool m_isDebugMode;

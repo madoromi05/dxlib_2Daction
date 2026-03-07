@@ -4,7 +4,7 @@ class Camera {
 public:
 	Camera();
 	~Camera();
-	void Initialize(int screenWight, int screenHight);
+	void Initialize(int screenWidth, int screenHeight);
 	void Update(float targetX, float targetY);
 
 	float GetX() const;

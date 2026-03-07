@@ -14,8 +14,8 @@ public:
     void Finalize() override;
 
 private:
-    Character* m_player;
-	Map* m_map;
+    std::unique_ptr<Character> m_player;
+    std::unique_ptr<Map> m_map;
     DrawableList m_drawableList;
     Camera m_camera;
 };
