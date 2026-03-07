@@ -19,6 +19,7 @@ Character::Character()
     , m_correctionValue(0)
     , m_horizontalSpeed(0)
     , m_jumpBtnPrevPress(false)
+    , m_attackBtnPrevPress(false)
     , m_isGrounded(false)
     , m_isDebugMode(true)
 	, m_isJumping(false)
@@ -39,17 +40,23 @@ void Character::Initialize() {
     m_animations[jumpUpIdx].SetAnimSpeed(5);
     m_animations[jumpUpIdx].SetLoop(false);
 
-    // 落下アニメーション読み込み
+    // 落下アニメーション
     int jumpDownIdx = static_cast<int>(AnimState::JumpDown);
     m_animations[jumpDownIdx].Load(ResourcePath::Player::PLAYER_DOWNJUMP, 6, 6, 1, 128, 128);
     m_animations[jumpDownIdx].SetAnimSpeed(5);
     m_animations[jumpDownIdx].SetLoop(false);
 
-	// 走りアニメーション読み込み
+	// 走りアニメーション
     int runIdx = static_cast<int>(AnimState::Run);
     m_animations[runIdx].Load(ResourcePath::Player::PLAYER_RUN, 8, 8, 1, 128, 128);
     m_animations[runIdx].SetAnimSpeed(10);
     m_animations[runIdx].SetLoop(true);
+
+	// 攻撃アニメーション
+    int attacIdx = static_cast<int>(AnimState::Attack);
+    m_animations[attacIdx].Load(ResourcePath::Player::PLAYER_ATTACK,6, 6, 1, 128, 128);
+    m_animations[attacIdx].SetAnimSpeed(8);
+    m_animations[attacIdx].SetLoop(false);
 
     // 初期状態をIdleにセット
     m_currentAnimation = &m_animations[idleIdx];
@@ -104,18 +111,38 @@ void Character::Update(Map* map) {
     bool jumpBtnPress = (key & PAD_INPUT_UP) != 0;
     JumpMove(map, jumpBtnPress);
 
-    if (m_isGrounded) {
-        if (m_horizontalSpeed != 0) {
-            ChangeAnimation(AnimState::Run);      // 地面にいて速度があるなら「走り」
-        } else {
-            ChangeAnimation(AnimState::Idle);     // 止まっているなら「待機」
+    // 攻撃のトリガー判定(zキー)
+    bool attackBtnPress = (key & PAD_INPUT_1) != 0;
+
+    if (m_currentState != AnimState::Attack && attackBtnPress && !m_attackBtnPrevPress) {
+        ChangeAnimation(AnimState::Attack);
+    }
+    m_attackBtnPrevPress = attackBtnPress;
+
+    // アニメーション状態ごとの切り替え
+    if (m_currentState == AnimState::Attack) {
+        // 攻撃アニメーションが最後まで再生されたかチェック
+        if (m_currentAnimation->IsFinished()) {
+            ChangeAnimation(AnimState::Idle);
         }
     }
-    else {
-        if (m_verticalSpeed < 0) {
-            ChangeAnimation(AnimState::JumpUp);   // 上に飛んでいるなら「上昇」
-        }else {
-            ChangeAnimation(AnimState::JumpDown); // 落ちているなら「落下」
+
+    if (m_currentState != AnimState::Attack) {
+        if (m_isGrounded) {
+            if (m_horizontalSpeed != 0) {
+                ChangeAnimation(AnimState::Run);
+            }
+            else {
+                ChangeAnimation(AnimState::Idle);
+            }
+        }
+        else {
+            if (m_verticalSpeed < 0) {
+                ChangeAnimation(AnimState::JumpUp);
+            }
+            else {
+                ChangeAnimation(AnimState::JumpDown);
+            }
         }
     }
     // 現在選択されているアニメーションだけを更新する

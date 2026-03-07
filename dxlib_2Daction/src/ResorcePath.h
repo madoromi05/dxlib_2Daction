@@ -13,10 +13,11 @@ namespace ResourcePath
 	
 	namespace Player
 	{
-		constexpr const char* PLAYER_IDLE = "Idle.png";
-		constexpr const char* PLAYER_JUMP = "Jump.png";
-		constexpr const char* PLAYER_DOWNJUMP = "DowmJump.png";
-		constexpr const char* PLAYER_RUN  = "Run.png";
+		constexpr const char* PLAYER_IDLE		= "Idle.png";
+		constexpr const char* PLAYER_JUMP		= "Jump.png";
+		constexpr const char* PLAYER_DOWNJUMP	= "DowmJump.png";
+		constexpr const char* PLAYER_RUN		= "Run.png";
+		constexpr const char* PLAYER_ATTACK		= "Attack_1.png";
 	}
 
 	namespace Enemy

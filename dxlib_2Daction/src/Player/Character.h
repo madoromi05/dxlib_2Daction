@@ -11,6 +11,7 @@ enum class AnimState {
     Run,        // 走り
     JumpUp,     // ジャンプ上昇中
     JumpDown,   // 落下中
+    Attack,     // 攻撃
     Count       // 状態の総数
 };
 
@@ -29,7 +30,7 @@ public:
     void Draw(float cameraX, float cameraY) const override;
     int GetY() const { return m_playerY; }
     int GetX() const { return m_playerX; }
-    int m_playerSpeed = 3;
+    int m_playerSpeed = 2;
 
 private:
     void Move(class Map* map, int key);                         // Playerの横入力による移動
@@ -67,7 +68,7 @@ private:
 
     // ジャンプ開始時の初期パラメータ
 	static constexpr int kVerticalForceDecimalPartData[5] = { 20, 20, 30, 30, 50 };     // ジャンプ中の加速度
-    static constexpr int kVerticalFallForceData[5]        = { 50, 50, 70, 90, 110 };    // 落下中重力加速度
+    static constexpr int kVerticalFallForceData[5]        = { 40, 40, 60, 80, 100 };    // 落下中重力加速度
     static constexpr int kInitialVerticalSpeedData[5]     = { -6, -6, -7, -8, -10 };    // ジャンプの初速度
     static constexpr int kInitialVerticalForceData[5]     = { 0, 0, 0, 0, 0 };          // 初期加速度
 
@@ -79,6 +80,9 @@ private:
     static constexpr int kChipHeight = 128;
     static constexpr int kDrawWidth  = 128;
     static constexpr int kDrawHeight = 128;
+
+    // 攻撃用
+    bool m_attackBtnPrevPress;
 
 	// アニメーション管理用
     SpriteAnimation m_animations[static_cast<int>(AnimState::Count)];
