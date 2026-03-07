@@ -2,7 +2,6 @@
 #include "BattleScene.h"
 
 SceneChanger::SceneChanger() : m_currentScene(nullptr) {
-    // 最初はバトルシーンから始めると仮定（あるいはタイトル）
     ChangeScene(SceneType::Battle);
 }
 

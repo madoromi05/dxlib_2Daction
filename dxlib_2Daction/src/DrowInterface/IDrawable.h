@@ -12,7 +12,7 @@ public:
     virtual ~IDrawable() = default;
 
 public:
-    virtual void Draw() const = 0;
+    virtual void Draw(float cameraX, float cameraY) const = 0;
 
     // オブジェクトを「表示する」ように設定
     void Show()

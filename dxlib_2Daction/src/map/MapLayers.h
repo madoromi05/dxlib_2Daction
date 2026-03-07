@@ -14,11 +14,12 @@
 struct MapObjectData : public IDrawable {
     int x, y;
     int graphHandle;
-    // bool isFront;
     MapObjectData(int _x, int _y, int _handle) : x(_x), y(_y), graphHandle(_handle) {}
 
-    void Draw() const override {
-        DrawGraph(x, y, graphHandle, TRUE);
+    void Draw(float cameraX, float cameraY) const override {
+		int drawX = x - static_cast<int>(cameraX);
+		int drawY = y - static_cast<int>(cameraY);
+        DrawGraph(drawX, drawY, graphHandle, TRUE);
     }
 };
 
@@ -45,7 +46,7 @@ public:
     void Initialize() override;
     void Finalize() override;
     void RegisterTo(DrawableList* list) override;
-    void Draw() const override;
+    void Draw(float cameraX, float cameraY) const override;
 };
 
 // --------------------------------------------------
@@ -63,7 +64,7 @@ public:
     void Initialize() override;
     void Finalize() override;
     void RegisterTo(DrawableList* list) override;
-    void Draw() const override;
+    void Draw(float cameraX, float cameraY) const override;
     void LoadMapData(const std::string& filePath);
     // •Ç”»’è
     bool IsWall(float x, float y);

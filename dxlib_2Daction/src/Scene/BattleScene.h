@@ -1,13 +1,9 @@
 #pragma once
 #include "IScene.h"
 #include "Player/Character.h"
+#include "Camera/Camera.h"
 
 class BattleScene : public IScene {
-private:
-    Character* m_player;
-	Map* m_map;
-    DrawableList m_drawableList;
-
 public:
     BattleScene();
     virtual ~BattleScene();
@@ -16,4 +12,10 @@ public:
     void Update(SceneChanger* sceneChanger) override;
     void Draw() override;
     void Finalize() override;
+
+private:
+    Character* m_player;
+	Map* m_map;
+    DrawableList m_drawableList;
+    Camera m_camera;
 };

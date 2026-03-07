@@ -34,14 +34,14 @@ public:
     }
 
     // 最後に1回だけ呼び出し、一気に描いてリストをリセットする
-    void DrawAll()
+    void DrawAll(float cameraX, float cameraY)
     {
         // レイヤー順にソート
         std::sort(m_drawables.begin(), m_drawables.end());
 
         // 描画
         for (const auto& req : m_drawables) {
-            req.drawable->Draw();
+            req.drawable->Draw(cameraX, cameraY);
         }
 
         // 次のフレームのためにリストを空にする（メモリの確保領域は維持されるので高速）

@@ -106,17 +106,15 @@ void Character::Update(Map* map) {
 
     if (m_isGrounded) {
         if (m_horizontalSpeed != 0) {
-            ChangeAnimation(AnimState::Run); // 地面にいて速度があるなら「走り」
-        }
-        else {
-            ChangeAnimation(AnimState::Idle); // 止まっているなら「待機」
+            ChangeAnimation(AnimState::Run);      // 地面にいて速度があるなら「走り」
+        } else {
+            ChangeAnimation(AnimState::Idle);     // 止まっているなら「待機」
         }
     }
     else {
         if (m_verticalSpeed < 0) {
-            ChangeAnimation(AnimState::JumpUp); // 上に飛んでいるなら「上昇」
-        }
-        else {
+            ChangeAnimation(AnimState::JumpUp);   // 上に飛んでいるなら「上昇」
+        }else {
             ChangeAnimation(AnimState::JumpDown); // 落ちているなら「落下」
         }
     }
@@ -227,7 +225,6 @@ void Character::Physics(Map* map) {
         if (!m_colliders[bodyIdx].IsCollidingWithMap(map, m_playerX, m_playerY + 1.0f)) {
             m_isGrounded = false;
 			m_verticalForce = kNormalGravity;   // 落下状態の加速度をセット
-            // m_verticalForce = kVerticalFallForceData[0]; // 最低限の落下加速度をセット
         }
     }
 
@@ -299,22 +296,21 @@ void Character::PreparingJump() {
     m_verticalSpeed = kInitialVerticalSpeedData[idx];
 }
 
-void Character::Draw() const {
+void Character::Draw(float cameraX, float cameraY) const {
+    float drawX = m_playerX - cameraX;
+    float drawY = m_playerY - cameraY;
+
     if (m_currentAnimation != nullptr) {
-        m_currentAnimation->Draw(m_playerX, m_playerY, kDrawWidth, kDrawHeight, m_isFacingLeft);
+        m_currentAnimation->Draw(drawX, drawY, kDrawWidth, kDrawHeight, m_isFacingLeft);
     }
 
-    m_idleAnimation.Draw(m_playerX, m_playerY, kDrawWidth, kDrawHeight);
     if (m_isDebugMode) {
-    // Body (緑)
-    m_colliders[static_cast<int>(ColliderType::Body)].DrawDebug(m_playerX, m_playerY, GetColor(0, 255, 0));    
-    // Attack (赤)
-    m_colliders[static_cast<int>(ColliderType::Attack)].DrawDebug(m_playerX, m_playerY, GetColor(255, 0, 0));
-    // Damage (青)
-    m_colliders[static_cast<int>(ColliderType::Damage)].DrawDebug(m_playerX, m_playerY, GetColor(0, 0, 255));
+        m_colliders[static_cast<int>(ColliderType::Body)].DrawDebug(drawX, drawY, GetColor(0, 255, 0));
+        m_colliders[static_cast<int>(ColliderType::Attack)].DrawDebug(drawX, drawY, GetColor(255, 0, 0));
+        m_colliders[static_cast<int>(ColliderType::Damage)].DrawDebug(drawX, drawY, GetColor(0, 0, 255));
 
-    DrawFormatString(0, 0, GetColor(255, 255, 255), "Grounded: %d", m_isGrounded);
-    DrawFormatString(0, 20, GetColor(255, 255, 255), "Speed Y : %d", m_verticalSpeed);
-    DrawFormatString(0, 40, GetColor(255, 255, 255), "Player Y: %.1f", m_playerY);
+        DrawFormatString(0, 0, GetColor(255, 255, 255), "Grounded: %d", m_isGrounded);
+        DrawFormatString(0, 20, GetColor(255, 255, 255), "Speed Y : %d", m_verticalSpeed);
+        DrawFormatString(0, 40, GetColor(255, 255, 255), "Player Y: %.1f", m_playerY);
     }
 }

@@ -26,8 +26,9 @@ public:
     Character();
     void Initialize();
     void Update(class Map* map);
-    void Draw() const override;
+    void Draw(float cameraX, float cameraY) const override;
     int GetY() const { return m_playerY; }
+    int GetX() const { return m_playerX; }
     int m_playerSpeed = 3;
 
 private:

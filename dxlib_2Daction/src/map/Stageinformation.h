@@ -15,6 +15,9 @@ namespace stage_information {
     constexpr int kStagePixelWidth  = kMapWidth * kMapGridSize;
     constexpr int kStagePixelHeight = kMapHeight * kMapGridSize;
 
+	// ゲーム画面の大きさを決める定数
+    constexpr int kCameraHeight = 600;
+
     // タイル画像に関する定数
     constexpr int kTileSize = 32;       // 元画像のタイル1枚のサイズ
     constexpr int kTileX = 12;          // タイルマップ画像の横の分割数

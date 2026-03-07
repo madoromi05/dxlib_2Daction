@@ -27,7 +27,7 @@ void BackgroundLayer::RegisterTo(DrawableList* list) {
     list->Add(this, stage_information::kZOrderBackground);
 }
 
-void BackgroundLayer::Draw() const {
+void BackgroundLayer::Draw(float cameraX, float cameraY) const {
     if (m_graphHandle != -1) {
         int imgWidth, imgHeight;
         GetGraphSize(m_graphHandle, &imgWidth, &imgHeight);
@@ -35,7 +35,12 @@ void BackgroundLayer::Draw() const {
         float scale = (float)targetHeight / imgHeight;
         int drawWidth = (int)(imgWidth * scale);
         int drawHeight = targetHeight;
-        DrawExtendGraph(0, 0, drawWidth, drawHeight, m_graphHandle, FALSE);
+        float x = -(cameraX * 0.5f);
+        float y = -cameraY;
+		int drawX = static_cast<int>(x);
+		int drawY = static_cast<int>(y);
+
+        DrawExtendGraph(drawX, drawY, drawX + drawWidth, drawHeight + drawY, m_graphHandle, FALSE);
     }
 }
 
@@ -113,13 +118,13 @@ void TileLayer::RegisterTo(DrawableList* list) {
     list->Add(this, stage_information::kZOrderTile); // タイルは背景より手前なので Zオーダー「10」
 }
 
-void TileLayer::Draw() const {
+void TileLayer::Draw(float cameraX, float cameraY) const {
     for (int y = 0; y < stage_information::kMapHeight; y++) {
         for (int x = 0; x < stage_information::kMapWidth; x++) {
             int id = m_mapData[y][x];
             if (id >= 0 && m_tileHandles[id] != -1) {
-                int drawX = x * stage_information::kMapGridSize;
-                int drawY = y * stage_information::kMapGridSize;
+                float drawX = (x * stage_information::kMapGridSize) - cameraX;
+                float drawY = (y * stage_information::kMapGridSize) - cameraY;
                 DrawExtendGraph(
                     drawX, drawY,
                     drawX + stage_information::kMapGridSize,
@@ -173,7 +178,6 @@ bool TileLayer::IsWall(float x, float y) {
     if (type == 3) { // 右上がり (◢)
         return localY >= (stage_information::kMapGridSize - 1 - localX);
     }
-
 
     return m_collisionTable[id];
 }

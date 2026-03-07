@@ -2,8 +2,11 @@
 #include <algorithm>
 
 ScreenSizeManager::ScreenSizeManager()
-    : m_virtualScreenHandle(-1), m_monitorWidth(0), m_monitorHeight(0), m_logicalWidth(640) {
-}
+    : m_virtualScreenHandle(-1)
+    , m_monitorWidth(0)
+    , m_monitorHeight(0)
+    , m_logicalHeight(stage_information::kCameraHeight)
+{}
 
 ScreenSizeManager::~ScreenSizeManager() {
     if (m_virtualScreenHandle != -1) {
@@ -15,11 +18,11 @@ bool ScreenSizeManager::Initialize() {
     // モニターサイズの取得
     m_monitorWidth = GetSystemMetrics(SM_CXSCREEN);
     m_monitorHeight = GetSystemMetrics(SM_CYSCREEN);
-    
-    m_logicalWidth = stage_information::kStagePixelWidth;
-    m_logicalHeight = stage_information::kStagePixelHeight;
 
-    // int logicalHeight = stage_information::kStagePixelHeight;
+    // 基準の縦幅から、モニターの比率に合わせて横幅を計算する
+    m_logicalHeight = stage_information::kCameraHeight;
+    float aspect = static_cast<float>(m_monitorWidth) / static_cast<float>(m_monitorHeight);
+    m_logicalWidth = static_cast<int>(m_logicalHeight * aspect);
 
     // DxLibの設定
     SetCurrentDirectory("resorce");
@@ -33,7 +36,6 @@ bool ScreenSizeManager::Initialize() {
     }
 
     // 仮想スクリーンの作成
-    // m_virtualScreenHandle = MakeScreen(m_logicalWidth, kLogicalHeight, TRUE);
     m_virtualScreenHandle = MakeScreen(m_logicalWidth, m_logicalHeight, TRUE);
     // ドット絵をくっきりさせる設定
     SetDrawMode(DX_DRAWMODE_NEAREST);
