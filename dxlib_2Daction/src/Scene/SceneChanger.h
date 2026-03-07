@@ -1,9 +1,10 @@
 #pragma once
+#include <memory>
 #include "IScene.h"
 
 class SceneChanger {
 private:
-    IScene* m_currentScene;
+    std::unique_ptr<IScene> m_currentScene;
 
 public:
     SceneChanger();

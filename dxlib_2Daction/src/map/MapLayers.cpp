@@ -19,6 +19,7 @@ void BackgroundLayer::Initialize() {
         throw std::runtime_error("【致命的エラー】背景画像の読み込みに失敗しました。\nパス: " + m_fileName);
     }
 }
+
 void BackgroundLayer::Finalize() {
     if (m_graphHandle != -1) DeleteGraph(m_graphHandle);
 }
@@ -123,8 +124,9 @@ void TileLayer::Draw(float cameraX, float cameraY) const {
         for (int x = 0; x < stage_information::kMapWidth; x++) {
             int id = m_mapData[y][x];
             if (id >= 0 && m_tileHandles[id] != -1) {
-                float drawX = (x * stage_information::kMapGridSize) - cameraX;
-                float drawY = (y * stage_information::kMapGridSize) - cameraY;
+                int drawX = static_cast<int>(x * stage_information::kMapGridSize - cameraX);
+                int drawY = static_cast<int>(y * stage_information::kMapGridSize - cameraY);
+
                 DrawExtendGraph(
                     drawX, drawY,
                     drawX + stage_information::kMapGridSize,
@@ -202,6 +204,6 @@ void ObjectLayer::Finalize() {
 
 void ObjectLayer::RegisterTo(DrawableList* list) {
     for (auto& obj : m_objects) {
-        list->Add(&obj, stage_information::kZOrderObjectBase + obj.y);
+        list->Add(&obj, stage_information::kZOrderObjectBase + obj.m_y);
     }
 }

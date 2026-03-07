@@ -1,5 +1,5 @@
 #include "Character.h"
-#include "ResorcePath.h"
+#include "ResourcePath.h"
 #include "DxLib.h"
 #include "map/Map.h"
 #include "Collider/Collider.h"
@@ -30,31 +30,31 @@ Character::Character()
 
 void Character::Initialize() {
     int idleIdx = static_cast<int>(AnimState::Idle);
-    m_animations[idleIdx].Load(ResourcePath::Player::PLAYER_IDLE, 6, 6, 1, 128, 128);
+    m_animations[idleIdx].Load(ResourcePath::Player::kPlayerIdle, 6, 6, 1, 128, 128);
     m_animations[idleIdx].SetAnimSpeed(8);
     m_animations[idleIdx].SetLoop(true);
 
 	// ジャンプの上昇アニメーション
     int jumpUpIdx = static_cast<int>(AnimState::JumpUp);
-    m_animations[jumpUpIdx].Load(ResourcePath::Player::PLAYER_JUMP, 6, 6, 1, 128, 128);
+    m_animations[jumpUpIdx].Load(ResourcePath::Player::kPlayerJump, 6, 6, 1, 128, 128);
     m_animations[jumpUpIdx].SetAnimSpeed(5);
     m_animations[jumpUpIdx].SetLoop(false);
 
     // 落下アニメーション
     int jumpDownIdx = static_cast<int>(AnimState::JumpDown);
-    m_animations[jumpDownIdx].Load(ResourcePath::Player::PLAYER_DOWNJUMP, 6, 6, 1, 128, 128);
+    m_animations[jumpDownIdx].Load(ResourcePath::Player::kPlayerDownJump, 6, 6, 1, 128, 128);
     m_animations[jumpDownIdx].SetAnimSpeed(5);
     m_animations[jumpDownIdx].SetLoop(false);
 
 	// 走りアニメーション
     int runIdx = static_cast<int>(AnimState::Run);
-    m_animations[runIdx].Load(ResourcePath::Player::PLAYER_RUN, 8, 8, 1, 128, 128);
+    m_animations[runIdx].Load(ResourcePath::Player::kPlayerRun, 8, 8, 1, 128, 128);
     m_animations[runIdx].SetAnimSpeed(10);
     m_animations[runIdx].SetLoop(true);
 
 	// 攻撃アニメーション
     int attacIdx = static_cast<int>(AnimState::Attack);
-    m_animations[attacIdx].Load(ResourcePath::Player::PLAYER_ATTACK,6, 6, 1, 128, 128);
+    m_animations[attacIdx].Load(ResourcePath::Player::kPlayerAttack,6, 6, 1, 128, 128);
     m_animations[attacIdx].SetAnimSpeed(8);
     m_animations[attacIdx].SetLoop(false);
 
@@ -100,8 +100,6 @@ void Character::ResetJumpParam() {
 }
 
 void Character::Update(Map* map) {
-    m_idleAnimation.Update();
-
     int key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
     // 横方向の移動
@@ -158,13 +156,11 @@ void Character::Move(Map* map, int key) {
         nextX += m_playerSpeed;
         m_horizontalSpeed = m_playerSpeed;
         m_isFacingLeft = false;
-    }
-    else if (key & PAD_INPUT_LEFT) {
+    } else if (key & PAD_INPUT_LEFT) {
         nextX -= m_playerSpeed;
         m_horizontalSpeed = -m_playerSpeed;
         m_isFacingLeft = true;
-    }
-    else {
+    } else {
         m_horizontalSpeed = 0;
     }
 

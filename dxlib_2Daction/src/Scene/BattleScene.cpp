@@ -12,10 +12,10 @@ BattleScene::~BattleScene() {
 }
 
 void BattleScene::Initialize() {
-    m_map = new Map();
+    m_map = std::make_unique<Map>();
     m_map->Initialize();
 
-    m_player = new Character();
+    m_player = std::make_unique<Character>();
     m_player->Initialize();
 
     int monitorW = GetSystemMetrics(SM_CXSCREEN);
@@ -30,31 +30,28 @@ void BattleScene::Initialize() {
 
 void BattleScene::Update(SceneChanger* sceneChanger) {
     if (m_player != nullptr) {
-        m_player->Update(m_map);
+        m_player->Update(m_map.get());
         m_camera.Update(m_player->GetX(), m_player->GetY());
     }
+    BuildDrawList();
 }
 
-void BattleScene::Draw() {
+void BattleScene::BuildDrawList() {
     if (m_map != nullptr) {
         m_map->RegisterTo(&m_drawableList);
     }
 
     if (m_player != nullptr) {
         int playerZOrder = stage_information::kZOrderObjectBase + m_player->GetY();
-        m_drawableList.Add(m_player, playerZOrder);
+        m_drawableList.Add(m_player.get(), playerZOrder);
     }
+}
 
+void BattleScene::Draw() {
     m_drawableList.DrawAll(m_camera.GetX(), m_camera.GetY());
 }
 
 void BattleScene::Finalize() {
-    if (m_player != nullptr) {
-        delete m_player;
-        m_player = nullptr;
-    }
-    if (m_map != nullptr) {
-        delete m_map;
-        m_map = nullptr;
-    }
+    m_player.reset();
+    m_map.reset();
 }

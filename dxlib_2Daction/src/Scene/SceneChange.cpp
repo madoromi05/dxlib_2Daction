@@ -8,29 +8,25 @@ SceneChanger::SceneChanger() : m_currentScene(nullptr) {
 SceneChanger::~SceneChanger() {
     if (m_currentScene != nullptr) {
         m_currentScene->Finalize();
-        delete m_currentScene;
-        m_currentScene = nullptr;
     }
 }
 
 void SceneChanger::ChangeScene(SceneType nextScene) {
-    // 現在のシーンがあれば終了処理をして削除
     if (m_currentScene != nullptr) {
         m_currentScene->Finalize();
-        delete m_currentScene;
+        m_currentScene.reset();
     }
 
     // 次のシーンを生成（ここで分岐）
     switch (nextScene) {
     case SceneType::Battle:
-        m_currentScene = new BattleScene();
+        m_currentScene = std::make_unique<BattleScene>();
         break;
     default:
         // エラー処理など
         break;
     }
 
-    // 新しいシーンを初期化
     if (m_currentScene != nullptr) {
         m_currentScene->Initialize();
     }

@@ -28,13 +28,13 @@
     <ClCompile Include="src\Map\Map.cpp" />
     <ClCompile Include="src\Map\MapLayers.cpp" />
     <ClCompile Include="src\Scene\SceneChange.cpp" />
-    <ClCompile Include="src\ScreanSizeManager.cpp" />
+    <ClCompile Include="src\ScreenSizeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\Collider\Collider.h" />
-    <ClInclude Include="src\DrowInterface\IDrawable.h" />
-    <ClInclude Include="src\DrowInterface\DrawableList.h" />
+    <ClInclude Include="src\DrawInterface\IDrawable.h" />
+    <ClInclude Include="src\DrawInterface\DrawableList.h" />
     <ClInclude Include="src\map\StageInformation.h" />
     <ClInclude Include="src\Player\SpriteAnimation.h" />
     <ClInclude Include="src\Scene\BattleScene.h" />
@@ -42,20 +42,20 @@
     <ClInclude Include="src\Scene\IScene.h" />
     <ClInclude Include="src\Map\Map.h" />
     <ClInclude Include="src\Map\MapLayers.h" />
-    <ClInclude Include="src\ResorcePath.h" />
+    <ClInclude Include="src\ResourcePath.h" />
     <ClInclude Include="src\Scene\SceneChanger.h" />
     <ClInclude Include="src\ScreenSizeManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resorce\Background.png" />
-    <Image Include="resorce\Bush.png" />
-    <Image Include="resorce\Idle.png" />
-    <Image Include="resorce\Jump.png" />
-    <Image Include="resorce\Tileset.png" />
-    <Image Include="resorce\Tree.png" />
+    <Image Include="resource\Background.png" />
+    <Image Include="resource\Bush.png" />
+    <Image Include="resource\Idle.png" />
+    <Image Include="resource\Jump.png" />
+    <Image Include="resource\Tileset.png" />
+    <Image Include="resource\Tree.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="resorce\mapData1.csv" />
+    <None Include="resource\mapData1.csv" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>

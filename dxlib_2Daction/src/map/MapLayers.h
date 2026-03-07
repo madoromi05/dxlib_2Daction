@@ -1,9 +1,9 @@
 #pragma once
 #include "DxLib.h"
-#include "ResorcePath.h"
+#include "ResourcePath.h"
 #include "StageInformation.h"
-#include "DrowInterface/DrawableList.h"
-#include "DrowInterface/IDrawable.h"
+#include "DrawInterface/DrawableList.h"
+#include "DrawInterface/IDrawable.h"
 #include <vector>
 #include <stdexcept>
 #include <fstream>
@@ -12,14 +12,17 @@
 #include <iostream>
 
 struct MapObjectData : public IDrawable {
-    int x, y;
-    int graphHandle;
-    MapObjectData(int _x, int _y, int _handle) : x(_x), y(_y), graphHandle(_handle) {}
+    int m_x;
+    int m_y;
+    int m_graphHandle;
+    MapObjectData(int posX, int posY, int handle)
+        : m_x(posX), m_y(posY), m_graphHandle(handle) {
+    }
 
     void Draw(float cameraX, float cameraY) const override {
-		int drawX = x - static_cast<int>(cameraX);
-		int drawY = y - static_cast<int>(cameraY);
-        DrawGraph(drawX, drawY, graphHandle, TRUE);
+        int drawX = m_x - static_cast<int>(cameraX);
+        int drawY = m_y - static_cast<int>(cameraY);
+        DrawGraph(drawX, drawY, m_graphHandle, TRUE);
     }
 };
 

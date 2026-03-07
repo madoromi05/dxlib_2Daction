@@ -14,6 +14,7 @@ public:
     void Finalize() override;
 
 private:
+    void BuildDrawList();
     std::unique_ptr<Character> m_player;
     std::unique_ptr<Map> m_map;
     DrawableList m_drawableList;

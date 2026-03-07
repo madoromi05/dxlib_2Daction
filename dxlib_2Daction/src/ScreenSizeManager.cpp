@@ -6,6 +6,7 @@ ScreenSizeManager::ScreenSizeManager()
     , m_monitorWidth(0)
     , m_monitorHeight(0)
     , m_logicalHeight(stage_information::kCameraHeight)
+	, m_logicalWidth(0)
 {}
 
 ScreenSizeManager::~ScreenSizeManager() {

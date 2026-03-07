@@ -6,6 +6,7 @@ Camera::Camera()
 	: m_cameraX(0)
 	, m_screenWidth(0)
 	, m_screenHeight(0)
+	, m_cameraY(0)
 {}
 
 Camera::~Camera() {}

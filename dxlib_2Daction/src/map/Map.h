@@ -1,6 +1,6 @@
 #pragma once
 #include "MapLayers.h"
-#include "ResorcePath.h"
+#include "ResourcePath.h"
 #include <vector>
 #include <memory>
 
@@ -8,7 +8,7 @@ class Map {
 private:
     // レイヤーのリスト（親クラスのポインタで管理！）
     // 背景、オブジェクト等は汎用的に管理
-    std::vector<MapLayer*> m_layers;
+    std::vector<std::unique_ptr<MapLayer>> m_layers;
 
     // タイルレイヤーだけは当たり判定で頻繁に使うので、
     // 専用のポインタとしても持っておくと便利

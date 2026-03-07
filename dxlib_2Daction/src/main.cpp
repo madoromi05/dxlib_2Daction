@@ -7,10 +7,9 @@
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
-    ScreenSizeManager* screenSizeManager = new ScreenSizeManager();
+    ScreenSizeManager screenSizeManager;
 
-    if (!screenSizeManager->Initialize()) {
-        delete screenSizeManager;
+    if (!screenSizeManager.Initialize()) {
         return -1;
     }
 
@@ -19,21 +18,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
         while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
         {
-            screenSizeManager->BeginDraw();
+            screenSizeManager.BeginDraw();
 
             sceneChanger->Update();
             sceneChanger->Draw();
-            screenSizeManager->EndDraw();
+            screenSizeManager.EndDraw();
         }
-
-        delete sceneChanger;
     }
     catch (const std::exception& e) {
         MessageBox(NULL, e.what(), "致命的なエラー", MB_OK | MB_ICONERROR);
     }
 
     // 後始末
-    delete screenSizeManager;
     DxLib_End();
 
     return 0;

@@ -39,7 +39,7 @@
     <ClCompile Include="src\Map\MapLayers.cpp">
       <Filter>ソース ファイル\Map</Filter>
     </ClCompile>
-    <ClCompile Include="src\ScreanSizeManager.cpp">
+    <ClCompile Include="src\ScreenSizeManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\Collider\Collider.cpp">
@@ -71,7 +71,7 @@
     <ClInclude Include="src\Map\MapLayers.h">
       <Filter>ヘッダー ファイル\Map</Filter>
     </ClInclude>
-    <ClInclude Include="src\ResorcePath.h">
+    <ClInclude Include="src\ResourcePath.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\ScreenSizeManager.h">
@@ -80,10 +80,10 @@
     <ClInclude Include="src\map\StageInformation.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\DrowInterface\IDrawable.h">
+    <ClInclude Include="src\DrawInterface\IDrawable.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\DrowInterface\DrawableList.h">
+    <ClInclude Include="src\DrawInterface\DrawableList.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\Collider\Collider.h">
@@ -97,27 +97,27 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resorce\Tileset.png">
+    <Image Include="resource\Tileset.png">
       <Filter>リソース ファイル</Filter>
     </Image>
-    <Image Include="resorce\Background.png">
+    <Image Include="resource\Background.png">
       <Filter>リソース ファイル</Filter>
     </Image>
-    <Image Include="resorce\Idle.png">
+    <Image Include="resource\Idle.png">
       <Filter>リソース ファイル</Filter>
     </Image>
-    <Image Include="resorce\Bush.png">
+    <Image Include="resource\Bush.png">
       <Filter>リソース ファイル</Filter>
     </Image>
-    <Image Include="resorce\Tree.png">
+    <Image Include="resource\Tree.png">
       <Filter>リソース ファイル</Filter>
     </Image>
-    <Image Include="resorce\Jump.png">
+    <Image Include="resource\Jump.png">
       <Filter>リソース ファイル</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="resorce\mapData1.csv">
+    <None Include="resource\mapData1.csv">
       <Filter>リソース ファイル</Filter>
     </None>
   </ItemGroup>
