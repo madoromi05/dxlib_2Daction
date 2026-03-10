@@ -1,7 +1,11 @@
 #pragma once
 #include "IScene.h"
-#include "Player/Character.h"
+#include "Character/Player/PlayerCharacter.h"
 #include "Camera/Camera.h"
+#include "DrawInterface/DrawableList.h"
+#include "map/Map.h"
+#include "map/StageInformation.h"
+#include <memory>
 
 class BattleScene : public IScene {
 public:
@@ -15,7 +19,7 @@ public:
 
 private:
     void BuildDrawList();
-    std::unique_ptr<Character> m_player;
+    std::unique_ptr<PlayerCharacter> m_player;
     std::unique_ptr<Map> m_map;
     DrawableList m_drawableList;
     Camera m_camera;

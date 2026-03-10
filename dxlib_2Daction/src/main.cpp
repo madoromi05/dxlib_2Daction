@@ -1,4 +1,4 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "Scene/SceneChanger.h"
 #include "ScreenSizeManager.h"
 #include <stdexcept>
@@ -26,10 +26,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
         }
     }
     catch (const std::exception& e) {
-        MessageBox(NULL, e.what(), "’v–½“I‚ÈƒGƒ‰[", MB_OK | MB_ICONERROR);
+        MessageBoxA(NULL, e.what(), "è‡´å‘½çš„ãªã‚¨ãƒ©ãƒ¼", MB_OK | MB_ICONERROR);
     }
 
-    // Œãn––
+    // å¾Œå§‹æœ«
     DxLib_End();
 
     return 0;

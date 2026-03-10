@@ -19,11 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Character\Animertion\AnimationController.cpp" />
+    <ClCompile Include="src\Character\Player\MoveMentController.cpp" />
     <ClCompile Include="src\Camera\Camera.cpp" />
+    <ClCompile Include="src\Collider\AabbCollider.cpp" />
+    <ClCompile Include="src\Collider\CircleCollider.cpp" />
     <ClCompile Include="src\Collider\Collider.cpp" />
-    <ClCompile Include="src\Player\SpriteAnimation.cpp" />
+    <ClCompile Include="src\Character\Player\InputHandler.cpp" />
+    <ClCompile Include="src\Character\Animertion\SpriteAnimation.cpp" />
+    <ClCompile Include="src\Collider\CollisionHelper.cpp" />
+    <ClCompile Include="src\Collider\MapCollider.cpp" />
+    <ClCompile Include="src\Collider\ObbCollider.cpp" />
     <ClCompile Include="src\Scene\BattleScene.cpp" />
-    <ClCompile Include="src\Player\Character.cpp" />
+    <ClCompile Include="src\Character\Player\PlayerCharacter.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Map\Map.cpp" />
     <ClCompile Include="src\Map\MapLayers.cpp" />
@@ -31,14 +39,24 @@
     <ClCompile Include="src\ScreenSizeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Character\Animertion\AnimationController.h" />
+    <ClInclude Include="src\Character\Player\MoveMentController.h" />
     <ClInclude Include="src\Camera\Camera.h" />
+    <ClInclude Include="src\Collider\AabbCollider.h" />
+    <ClInclude Include="src\Collider\CircleCollider.h" />
     <ClInclude Include="src\Collider\Collider.h" />
+    <ClInclude Include="src\Collider\CollisionHelper.h" />
+    <ClInclude Include="src\Collider\ICollider.h" />
+    <ClInclude Include="src\Collider\MapCollider.h" />
+    <ClInclude Include="src\Collider\ObbCollider.h" />
+    <ClInclude Include="src\Collider\Vecter2.h" />
     <ClInclude Include="src\DrawInterface\IDrawable.h" />
     <ClInclude Include="src\DrawInterface\DrawableList.h" />
     <ClInclude Include="src\map\StageInformation.h" />
-    <ClInclude Include="src\Player\SpriteAnimation.h" />
+    <ClInclude Include="src\Character\Player\InputHandler.h" />
+    <ClInclude Include="src\Character\Animertion\SpriteAnimation.h" />
     <ClInclude Include="src\Scene\BattleScene.h" />
-    <ClInclude Include="src\Player\Character.h" />
+    <ClInclude Include="src\Character\Player\PlayerCharacter.h" />
     <ClInclude Include="src\Scene\IScene.h" />
     <ClInclude Include="src\Map\Map.h" />
     <ClInclude Include="src\Map\MapLayers.h" />
@@ -69,7 +87,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -82,7 +100,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -133,6 +151,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>src;resorce;DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -163,6 +182,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>src;resorce;DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

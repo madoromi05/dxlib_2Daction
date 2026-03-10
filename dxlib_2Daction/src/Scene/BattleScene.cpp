@@ -1,10 +1,10 @@
 #include "BattleScene.h"
-#include "map/Map.h"
 #include "SceneChanger.h"
 #include "DxLib.h"
 
-BattleScene::BattleScene() : m_player(nullptr)
-, m_map(nullptr)
+BattleScene::BattleScene()
+  : m_player(nullptr)
+  , m_map(nullptr)
 {}
 
 BattleScene::~BattleScene() {
@@ -15,7 +15,7 @@ void BattleScene::Initialize() {
     m_map = std::make_unique<Map>();
     m_map->Initialize();
 
-    m_player = std::make_unique<Character>();
+    m_player = std::make_unique<PlayerCharacter>();
     m_player->Initialize();
 
     int monitorW = GetSystemMetrics(SM_CXSCREEN);
@@ -31,7 +31,10 @@ void BattleScene::Initialize() {
 void BattleScene::Update(SceneChanger* sceneChanger) {
     if (m_player != nullptr) {
         m_player->Update(m_map.get());
-        m_camera.Update(m_player->GetX(), m_player->GetY());
+        m_camera.Update(
+            static_cast<float>(m_player->GetX()),
+            static_cast<float>(m_player->GetY())
+        );
     }
     BuildDrawList();
 }

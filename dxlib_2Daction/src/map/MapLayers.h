@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "DxLib.h"
 #include "ResourcePath.h"
 #include "StageInformation.h"
@@ -10,6 +10,12 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <tchar.h>
+
+#ifndef TSTRING_DEFINED
+#define TSTRING_DEFINED
+typedef std::basic_string<TCHAR> tstring;
+#endif
 
 struct MapObjectData : public IDrawable {
     int m_x;
@@ -27,7 +33,7 @@ struct MapObjectData : public IDrawable {
 };
 
 // --------------------------------------------------
-// Šî’êƒNƒ‰ƒX: MapLayer
+// åŸºåº•ã‚¯ãƒ©ã‚¹: MapLayer
 // --------------------------------------------------
 class MapLayer {
 public:
@@ -38,14 +44,14 @@ public:
 };
 
 // --------------------------------------------------
-// ‰“ŒiƒŒƒCƒ„[ (BackgroundLayer)
+// é æ™¯ãƒ¬ã‚¤ãƒ¤ãƒ¼ (BackgroundLayer)
 // --------------------------------------------------
 class BackgroundLayer : public MapLayer, public IDrawable {
 private:
     int m_graphHandle;
-    std::string m_fileName;
+	tstring m_fileName;
 public:
-    BackgroundLayer(const std::string& fileName) : m_graphHandle(-1), m_fileName(fileName) {}
+    BackgroundLayer(const tstring& fileName) : m_graphHandle(-1), m_fileName(fileName) {}
     void Initialize() override;
     void Finalize() override;
     void RegisterTo(DrawableList* list) override;
@@ -53,12 +59,12 @@ public:
 };
 
 // --------------------------------------------------
-// ƒ^ƒCƒ‹ƒ}ƒbƒvƒŒƒCƒ„[ (TileLayer)
+// ã‚¿ã‚¤ãƒ«ãƒãƒƒãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ (TileLayer)
 // --------------------------------------------------
 class TileLayer : public MapLayer, public IDrawable {
 private:
-    int m_tileHandles[stage_information::kTileTotalNum]{};                        // ‰æ‘œƒnƒ“ƒhƒ‹”z—ñ
-	int m_mapData[stage_information::kMapHeight][stage_information::kMapWidth];   // ƒ}ƒbƒv”z’uƒf[ƒ^
+    int m_tileHandles[stage_information::kTileTotalNum]{};                        // ç”»åƒãƒãƒ³ãƒ‰ãƒ«é…åˆ—
+	int m_mapData[stage_information::kMapHeight][stage_information::kMapWidth];   // ãƒãƒƒãƒ—é…ç½®ãƒ‡ãƒ¼ã‚¿
     int m_collisionTable[stage_information::kTileTotalNum]{};
     bool m_isDebugMode;
 
@@ -68,13 +74,13 @@ public:
     void Finalize() override;
     void RegisterTo(DrawableList* list) override;
     void Draw(float cameraX, float cameraY) const override;
-    void LoadMapData(const std::string& filePath);
-    // •Ç”»’è
+    void LoadMapData(const tstring& filePath);
+    // å£åˆ¤å®š
     bool IsWall(float x, float y);
 };
 
 // --------------------------------------------------
-// ƒIƒuƒWƒFƒNƒgƒŒƒCƒ„[ (ObjectLayer)
+// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ¬ã‚¤ãƒ¤ãƒ¼ (ObjectLayer)
 // --------------------------------------------------
 class ObjectLayer : public MapLayer {
 private:

@@ -1,9 +1,13 @@
 ﻿#include "MapLayers.h"
 #include "Collider/Collider.h"
 
-bool FileExists(const std::string& path) {
-    std::ifstream fs(path);
-    return fs.is_open();
+bool FileExists(const tstring& path) {
+#ifdef UNICODE
+	std::wifstream fs(path);
+#else
+	std::ifstream fs(path);
+#endif
+	return fs.is_open();
 }
 
 // =========================================================
@@ -11,12 +15,12 @@ bool FileExists(const std::string& path) {
 // =========================================================
 void BackgroundLayer::Initialize() {
     if (!FileExists(m_fileName)) {
-        throw std::runtime_error("【致命的エラー】背景画像が見つかりません。\nパス: " + m_fileName);
+        throw std::runtime_error("【致命的エラー】背景画像が見つかりません。\nパス: ");
     }
     m_graphHandle = LoadGraph(m_fileName.c_str());
 
     if (m_graphHandle == -1) {
-        throw std::runtime_error("【致命的エラー】背景画像の読み込みに失敗しました。\nパス: " + m_fileName);
+        throw std::runtime_error("【致命的エラー】背景画像の読み込みに失敗しました。\nパス: ");
     }
 }
 
@@ -72,10 +76,15 @@ TileLayer::TileLayer()
     m_collisionTable[42] = 3;
 }
 
-void TileLayer::LoadMapData(const std::string& filePath) {
-    std::ifstream file(filePath);
+void TileLayer::LoadMapData(const tstring& filePath) {
+#ifdef UNICODE
+	std::string narrowPath(filePath.begin(), filePath.end());
+	std::ifstream file(narrowPath);
+#else
+	std::ifstream file(filePath);
+#endif
     if (!file.is_open()) {
-        throw std::runtime_error("【エラー】CSVファイルが見つかりません。\nパス: " + filePath);
+        throw std::runtime_error("【エラー】CSVファイルが見つかりません。\nパス: ");
     }
     std::string line;
     int y = 0;
@@ -102,11 +111,11 @@ void TileLayer::Initialize() {
         stage_information::kTileSize,
         m_tileHandles);
 
-    if (result == -1) {
-        throw std::runtime_error("【エラー】タイルマップ画像が見つかりません。\nパス: " + std::string(ResourcePath::Map::kTileMap));
-    }
+	if (result == -1) {
+		throw std::runtime_error("【エラー】タイルマップ画像が見つかりません。");
+	}
 
-    LoadMapData(ResourcePath::Map::kMapCSV1);
+	LoadMapData(ResourcePath::Map::kMapCSV1);
 }
 
 void TileLayer::Finalize() {

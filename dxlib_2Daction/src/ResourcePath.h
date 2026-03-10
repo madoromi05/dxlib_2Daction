@@ -1,23 +1,24 @@
-#pragma once
+﻿#pragma once
+#include <tchar.h>
 
 namespace ResourcePath
 {
 	namespace Map
 	{
-		constexpr const char* kMapCSV1		= "mapData1.csv";
-		constexpr const char* kBackground	= "Background.png";
-		constexpr const char* kTileMap		= "Tileset.png";
-		constexpr const char* kTree			= "Tree.png";
-		constexpr const char* kBush			= "Bush.png";
-	}	
-	
+		constexpr const TCHAR* kMapCSV1 = _T("mapData1.csv");
+		constexpr const TCHAR* kBackground = _T("Background.png");
+		constexpr const TCHAR* kTileMap = _T("Tileset.png");
+		constexpr const TCHAR* kTree = _T("Tree.png");
+		constexpr const TCHAR* kBush = _T("Bush.png");
+	}
+
 	namespace Player
 	{
-		constexpr const char* kPlayerIdle		= "Idle.png";
-		constexpr const char* kPlayerJump		= "Jump.png";
-		constexpr const char* kPlayerDownJump	= "DownJump.png";
-		constexpr const char* kPlayerRun		= "Run.png";
-		constexpr const char* kPlayerAttack		= "Attack_1.png";
+		constexpr const TCHAR* kPlayerIdle = _T("Idle.png");
+		constexpr const TCHAR* kPlayerJump = _T("Jump.png");
+		constexpr const TCHAR* kPlayerDownJump = _T("DownJump.png");
+		constexpr const TCHAR* kPlayerRun = _T("Run.png");
+		constexpr const TCHAR* kPlayerAttack = _T("Attack_1.png");
 	}
 
 	namespace Enemy
