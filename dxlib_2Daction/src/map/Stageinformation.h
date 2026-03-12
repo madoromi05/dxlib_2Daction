@@ -8,8 +8,8 @@ namespace stage_information {
 
     // マップ全体の大きさを決める定数
     constexpr int kMapGridSize = 32;        // ゲーム画面上の1マスの大きさ
-    constexpr int kMapWidth = 40;           // マップの横のマス数
-    constexpr int kMapHeight = 23;          // マップの縦のマス数
+    constexpr int kMapWidth = 50;           // マップの横のマス数
+    constexpr int kMapHeight = 30;          // マップの縦のマス数
 
     // 計算済みのステージ全体のピクセルサイズ
     constexpr int kStagePixelWidth  = kMapWidth * kMapGridSize;

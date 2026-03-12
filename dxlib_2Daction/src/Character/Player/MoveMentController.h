@@ -1,7 +1,4 @@
 ﻿#pragma once
-#include "Collider/Collider.h"
-#include <vector>
-#include <cmath>
 #include "Collider/AabbCollider.h"
 
 class Map;
@@ -66,7 +63,7 @@ private:
     // 踏みつけ跳ね返り速度（重力と逆方向にこの速度が設定される）
     static constexpr int kBounceSpeed = 8;
 
-    // コライダー（体のみ）
+    // キャラクターのコライダー
     AabbCollider m_bodyCollider;
 
     static constexpr float kSpriteWidth = 128.0f;

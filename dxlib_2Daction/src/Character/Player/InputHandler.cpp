@@ -1,4 +1,5 @@
-#include "InputHandler.h"
+﻿#include "InputHandler.h"
+#include "DxLib.h"
 
 InputHandler::InputHandler()
     : m_isRightPressed(false)

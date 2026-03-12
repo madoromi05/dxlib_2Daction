@@ -76,6 +76,15 @@ void PlayerCharacter::Draw(float cameraX, float cameraY) const {
 
     bool isGravityUp = (m_movement.GetGravityDirection() == -1);
 
+	// 重力が上向きのとき描画位置を調整する
+	if (isGravityUp) {
+		float colliderOffsetY = 40.0f;
+		float colliderHeight = 90.0f;
+
+		float shiftY = (colliderOffsetY * 2.0f) + colliderHeight - kDrawHeight;
+		drawY += shiftY;
+	}
+
     // アニメーション描画（左右・上下反転対応）
     m_animation.Draw(drawX, drawY, kDrawWidth, kDrawHeight,
         m_movement.IsFacingLeft(), isGravityUp);

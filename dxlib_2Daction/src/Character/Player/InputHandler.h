@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "DxLib.h"
 
 /// <summary>
 /// プレイヤーの入力状態を毎フレーム取得・保持するクラス。
