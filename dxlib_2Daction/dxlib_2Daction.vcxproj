@@ -24,7 +24,6 @@
     <ClCompile Include="src\Camera\Camera.cpp" />
     <ClCompile Include="src\Collider\AabbCollider.cpp" />
     <ClCompile Include="src\Collider\CircleCollider.cpp" />
-    <ClCompile Include="src\Collider\Collider.cpp" />
     <ClCompile Include="src\Character\Player\InputHandler.cpp" />
     <ClCompile Include="src\Character\Animertion\SpriteAnimation.cpp" />
     <ClCompile Include="src\Collider\CollisionHelper.cpp" />
@@ -45,7 +44,6 @@
     <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\Collider\AabbCollider.h" />
     <ClInclude Include="src\Collider\CircleCollider.h" />
-    <ClInclude Include="src\Collider\Collider.h" />
     <ClInclude Include="src\Collider\CollisionHelper.h" />
     <ClInclude Include="src\Collider\ICollider.h" />
     <ClInclude Include="src\Collider\MapCollider.h" />

@@ -1,5 +1,4 @@
 ﻿#include "MapLayers.h"
-#include "Collider/Collider.h"
 #include <filesystem>
 
 bool FileExists(const tstring& path) {

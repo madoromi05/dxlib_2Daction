@@ -1,4 +1,4 @@
-#include "AnimationController.h"
+﻿#include "AnimationController.h"
 #include "ResourcePath.h"
 
 AnimationController::AnimationController()
@@ -19,16 +19,16 @@ void AnimationController::Initialize() {
     m_animations[runIdx].SetAnimSpeed(10);
     m_animations[runIdx].SetLoop(true);
 
-    // 落下（旧JumpDownを流用）
+    // 落下
     int fallIdx = static_cast<int>(AnimState::Falling);
     m_animations[fallIdx].Load(ResourcePath::Player::kPlayerDownJump, 6, 6, 1, 128, 128);
-    m_animations[fallIdx].SetAnimSpeed(5);
+    m_animations[fallIdx].SetAnimSpeed(10);
     m_animations[fallIdx].SetLoop(false);
 
-    // 跳ね返り（旧JumpUpを流用）
+    // 跳ね返り
     int bounceIdx = static_cast<int>(AnimState::Bounce);
     m_animations[bounceIdx].Load(ResourcePath::Player::kPlayerJump, 6, 6, 1, 128, 128);
-    m_animations[bounceIdx].SetAnimSpeed(5);
+    m_animations[bounceIdx].SetAnimSpeed(10);
     m_animations[bounceIdx].SetLoop(false);
 
     // 初期状態をIdleにセット

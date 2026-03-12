@@ -56,8 +56,8 @@ private:
 
 
     // 重力パラメータ
-    static constexpr int kGravityAccel = 150;
-    static constexpr int kMaxFallSpeed = 100;
+	static constexpr int kGravityAccel = 20;	// 1frameあたりの重力加速度
+    static constexpr int kMaxFallSpeed = 20;
     int m_verticalForceDecimalPart;
 
     // 踏みつけ跳ね返り速度（重力と逆方向にこの速度が設定される）
