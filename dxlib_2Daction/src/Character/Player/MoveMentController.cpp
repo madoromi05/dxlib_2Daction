@@ -1,4 +1,4 @@
-#include "MovementController.h"
+﻿#include "MovementController.h"
 #include "map/Map.h"
 #include "Collider/MapCollider.h"
 
@@ -15,9 +15,18 @@ MovementController::MovementController()
     , m_bodyCollider(60.0f, 90.0f, 34.0f, 40.0f)
 {}
 
-void MovementController::Initialize() {
-    m_posX = 0;
-    m_posY = 475;
+void MovementController::Initialize(Map* map) {
+	if (map != nullptr) {
+		float baseGridX = map->GetStartX() * stage_information::kMapGridSize;
+		float baseGridY = map->GetStartY() * stage_information::kMapGridSize;
+
+		m_posX = baseGridX - (stage_information::kMapGridSize * 2.0f);
+		m_posY = baseGridY - (stage_information::kMapGridSize * 2.0f);
+	}
+	else {
+		m_posX = m_initialPosX;
+		m_posY = m_initialPosY;
+	}
     m_isFacingLeft = false;
     m_gravityDirection = 1;
     m_verticalSpeed = 0;

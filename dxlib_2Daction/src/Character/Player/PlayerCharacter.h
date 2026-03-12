@@ -17,7 +17,7 @@ class Map;
 class PlayerCharacter : public IDrawable {
 public:
     PlayerCharacter();
-    void Initialize();
+    void Initialize(Map* map);
     void Update(class Map* map);
     void Draw(float cameraX, float cameraY) const override;
 

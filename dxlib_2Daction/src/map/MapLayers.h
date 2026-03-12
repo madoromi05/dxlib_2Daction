@@ -74,9 +74,10 @@ public:
     void Finalize() override;
     void RegisterTo(DrawableList* list) override;
     void Draw(float cameraX, float cameraY) const override;
-    void LoadMapData(const tstring& filePath);
     // 壁判定
     bool IsWall(float x, float y);
+	void SetMapData(int mapData[stage_information::kMapHeight][stage_information::kMapWidth], int width, int height);
+
 };
 
 // --------------------------------------------------

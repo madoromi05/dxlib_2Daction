@@ -1,6 +1,7 @@
-#include "BattleScene.h"
+﻿#include "BattleScene.h"
 #include "SceneChanger.h"
 #include "DxLib.h"
+#include <random>
 
 BattleScene::BattleScene()
   : m_player(nullptr)
@@ -13,10 +14,13 @@ BattleScene::~BattleScene() {
 
 void BattleScene::Initialize() {
     m_map = std::make_unique<Map>();
-    m_map->Initialize();
+
+	std::random_device rd;
+	unsigned int seed = rd();
+    m_map->Initialize(seed);
 
     m_player = std::make_unique<PlayerCharacter>();
-    m_player->Initialize();
+    m_player->Initialize(m_map.get());
 
     int monitorW = GetSystemMetrics(SM_CXSCREEN);
     int monitorH = GetSystemMetrics(SM_CYSCREEN);

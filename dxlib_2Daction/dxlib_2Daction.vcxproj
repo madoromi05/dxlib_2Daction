@@ -30,6 +30,7 @@
     <ClCompile Include="src\Collider\CollisionHelper.cpp" />
     <ClCompile Include="src\Collider\MapCollider.cpp" />
     <ClCompile Include="src\Collider\ObbCollider.cpp" />
+    <ClCompile Include="src\map\MapGenerator.cpp" />
     <ClCompile Include="src\Scene\BattleScene.cpp" />
     <ClCompile Include="src\Character\Player\PlayerCharacter.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -52,6 +53,7 @@
     <ClInclude Include="src\Collider\Vecter2.h" />
     <ClInclude Include="src\DrawInterface\IDrawable.h" />
     <ClInclude Include="src\DrawInterface\DrawableList.h" />
+    <ClInclude Include="src\map\MapGenerator.h" />
     <ClInclude Include="src\map\StageInformation.h" />
     <ClInclude Include="src\Character\Player\InputHandler.h" />
     <ClInclude Include="src\Character\Animertion\SpriteAnimation.h" />

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Collider/Collider.h"
 #include <vector>
 #include <cmath>
@@ -12,7 +12,7 @@ class Map;
 class MovementController {
 public:
     MovementController();
-    void Initialize();
+    void Initialize(Map* map);
 
     void UpdateColliderPositions();
     void MoveHorizontal(Map* map, bool isRightPressed, bool isLeftPressed);
@@ -40,6 +40,10 @@ private:
 
     float m_posX;
     float m_posY;
+
+	// キャラ初期位置
+	float m_initialPosX = 0;
+	float m_initialPosY = 475;
 
     // 移動
     int m_playerSpeed = 2;

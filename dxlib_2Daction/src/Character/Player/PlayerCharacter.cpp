@@ -7,8 +7,8 @@ PlayerCharacter::PlayerCharacter()
     , m_isBouncing(false)
 {}
 
-void PlayerCharacter::Initialize() {
-    m_movement.Initialize();
+void PlayerCharacter::Initialize(Map* map) {
+    m_movement.Initialize(map);
     m_animation.Initialize();
     m_isBouncing = false;
 }

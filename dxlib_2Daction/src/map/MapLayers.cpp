@@ -1,5 +1,6 @@
 ﻿#include "MapLayers.h"
 #include "Collider/Collider.h"
+#include <filesystem>
 
 bool FileExists(const tstring& path) {
 #ifdef UNICODE
@@ -76,31 +77,6 @@ TileLayer::TileLayer()
     m_collisionTable[42] = 3;
 }
 
-void TileLayer::LoadMapData(const tstring& filePath) {
-#ifdef UNICODE
-	std::string narrowPath(filePath.begin(), filePath.end());
-	std::ifstream file(narrowPath);
-#else
-	std::ifstream file(filePath);
-#endif
-    if (!file.is_open()) {
-        throw std::runtime_error("【エラー】CSVファイルが見つかりません。\nパス: ");
-    }
-    std::string line;
-    int y = 0;
-    while (std::getline(file, line) && y < stage_information::kMapHeight) {
-        std::stringstream ss(line);
-        std::string value;
-        int x = 0;
-        while (std::getline(ss, value, ',') && x < stage_information::kMapWidth) {
-            try { m_mapData[y][x] = std::stoi(value); }
-            catch (...) { m_mapData[y][x] = 0; }
-            x++;
-        }
-        y++;
-    }
-}
-
 void TileLayer::Initialize() {
     int result = LoadDivGraph(
         ResourcePath::Map::kTileMap, 
@@ -114,8 +90,6 @@ void TileLayer::Initialize() {
 	if (result == -1) {
 		throw std::runtime_error("【エラー】タイルマップ画像が見つかりません。");
 	}
-
-	LoadMapData(ResourcePath::Map::kMapCSV1);
 }
 
 void TileLayer::Finalize() {
@@ -193,6 +167,13 @@ bool TileLayer::IsWall(float x, float y) {
     return m_collisionTable[id];
 }
 
+void TileLayer::SetMapData(int mapData[stage_information::kMapHeight][stage_information::kMapWidth], int width, int height) {
+    for (int y = 0; y < height && y < stage_information::kMapHeight; ++y) {
+        for (int x = 0; x < width && x < stage_information::kMapWidth; ++x) {
+            m_mapData[y][x] = mapData[y][x];
+        }
+    }
+}
 // ==========================================
 // ObjectLayer の実装
 // ==========================================
